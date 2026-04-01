@@ -1,0 +1,66 @@
+\begin{thebibliography}{1}
+\def\selectlanguageifdefined#1{
+\expandafter\ifx\csname date#1\endcsname\relax
+\else\selectlanguage{#1}\fi}
+\providecommand*{\href}[2]{{\small #2}}
+\providecommand*{\url}[1]{{\small #1}}
+\providecommand*{\BibUrl}[1]{\url{#1}}
+\providecommand{\BibAnnote}[1]{}
+\providecommand*{\BibEmph}[1]{#1}
+
+\bibitem{nafi2025}
+\selectlanguageifdefined{russian}
+Индекс финансовой грамотности — 2025:
+  россияне стали хуже считать проценты
+  [{Электронный ресурс}], Аналитический
+  центр НАФИ. "---
+\newblock [{Б.\ м.}~: {б.\ и.}], 2026. "---
+\newblock URL:
+  \BibUrl{https://nafi.ru/polls/indeks-finansovoy-gramotnosti-2025-rossiyane-stali-khuzhe-schitat-protsenty/}
+  ({дата обращения}: 01.04.2026).
+
+\bibitem{cbr2026}
+\selectlanguageifdefined{russian}
+Банк России принял решение снизить
+  ключевую ставку [{Электронный ресурс}],
+  Центральный банк Российской Федерации. "---
+\newblock [{Б.\ м.}~: {б.\ и.}], 2026. "--- 03. "---
+\newblock URL:
+  \BibUrl{https://www.cbr.ru/press/pr/?file=20032026_133000key.htm} ({дата
+  обращения}: 01.04.2026).
+
+\bibitem{react_docs}
+\selectlanguageifdefined{russian}
+React Documentation: Quick Start [{Электронный ресурс}]. "---
+\newblock [{Б.\ м.}~: {б.\ и.}]. "---
+\newblock URL: \BibUrl{https://react.dev} ({дата обращения}:
+  27.03.2026).
+
+\bibitem{cantelon2017node}
+\selectlanguageifdefined{russian}
+\BibEmph{Кантелон,~Майк}. Node.js в действии
+  [{Текст}]~/ Майк~Кантелон, Марк~Маркхол. "---
+\newblock СПб.~: Питер, 2017. "---
+\newblock
+  ISBN:~\href{http://isbndb.com/search-all.html?kw=978-5-496-02726-7}{978-5-496-02726-7}.
+
+\bibitem{petrov2024}
+\selectlanguageifdefined{russian}
+\BibEmph{Петров,~П.~П.} Анализ
+  производительности современных СУБД
+  [{Текст}]~/ П.~П.~Петров, С.~С.~Сидоров~//
+  \BibEmph{Вестник информационных технологий}.
+  "---
+\newblock 2024. "---
+\newblock {№}~2. "---
+\newblock {С.}~15--22.
+
+\bibitem{gost_report}
+\selectlanguageifdefined{russian}
+ГОСТ 7.32-2017. Отчет о
+  научно-исследовательской работе.
+  Структура и правила оформления [{Текст}].
+  "---
+\newblock 2017.
+
+\end{thebibliography}
