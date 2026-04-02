@@ -29,21 +29,6 @@
   \BibUrl{https://www.cbr.ru/press/pr/?file=20032026_133000key.htm} ({дата
   обращения}: 01.04.2026).
 
-\bibitem{react_docs}
-\selectlanguageifdefined{russian}
-React Documentation: Quick Start [{Электронный ресурс}]. "---
-\newblock [{Б.\ м.}~: {б.\ и.}]. "---
-\newblock URL: \BibUrl{https://react.dev} ({дата обращения}:
-  27.03.2026).
-
-\bibitem{cantelon2017node}
-\selectlanguageifdefined{russian}
-\BibEmph{Кантелон,~Майк}. Node.js в действии
-  [{Текст}]~/ Майк~Кантелон, Марк~Маркхол. "---
-\newblock СПб.~: Питер, 2017. "---
-\newblock
-  ISBN:~\href{http://isbndb.com/search-all.html?kw=978-5-496-02726-7}{978-5-496-02726-7}.
-
 \bibitem{petrov2024}
 \selectlanguageifdefined{russian}
 \BibEmph{Петров,~П.~П.} Анализ
