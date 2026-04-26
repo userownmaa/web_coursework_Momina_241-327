@@ -29,23 +29,4 @@
   \BibUrl{https://www.cbr.ru/press/pr/?file=20032026_133000key.htm} ({дата
   обращения}: 01.04.2026).
 
-\bibitem{petrov2024}
-\selectlanguageifdefined{russian}
-\BibEmph{Петров,~П.~П.} Анализ
-  производительности современных СУБД
-  [{Текст}]~/ П.~П.~Петров, С.~С.~Сидоров~//
-  \BibEmph{Вестник информационных технологий}.
-  "---
-\newblock 2024. "---
-\newblock {№}~2. "---
-\newblock {С.}~15--22.
-
-\bibitem{gost_report}
-\selectlanguageifdefined{russian}
-ГОСТ 7.32-2017. Отчет о
-  научно-исследовательской работе.
-  Структура и правила оформления [{Текст}].
-  "---
-\newblock 2017.
-
 \end{thebibliography}
