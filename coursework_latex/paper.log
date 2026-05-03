@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.4.1)  9 APR 2026 15:47
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.4.1)  3 MAY 2026 21:28
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2071,17 +2071,17 @@ Underfull \hbox (badness 2205) in paragraph at lines 54--55
 
 
 
-] [9] [10]) [11]
+] [9] [10]) [11] [12]
 \openout2 = `chapter2.aux'.
 
- (./chapter2.tex) [12
+ (./chapter2.tex) [13
 
 
 
 ]
 \openout2 = `chapter3.aux'.
 
- (./chapter3.tex) [13
+ (./chapter3.tex) [14
 
 
 
@@ -2089,7 +2089,7 @@ Underfull \hbox (badness 2205) in paragraph at lines 54--55
 \openout2 = `conclusion.aux'.
 
 
-(./conclusion.tex) [14
+(./conclusion.tex) [15
 
 
 
@@ -2124,7 +2124,7 @@ See the caption package documentation for explanation.
 Package caption Warning: Unused \captionsetup[lstlisting] on input line 237.
 See the caption package documentation for explanation.
 
-[15
+[16
 
 
 ] (./paper.aux (./title.aux) (./intro.aux) (./chapter1.aux) (./chapter2.aux) (.
@@ -2133,21 +2133,21 @@ Package rerunfilecheck Info: File `paper.out' has not changed.
 (rerunfilecheck)             Checksum: D2FC30959A8BFA86815031E7153CDBBF;4154.
  ) 
 Here is how much of TeX's memory you used:
- 23345 strings out of 479648
- 373849 string characters out of 5886116
+ 23358 strings out of 479648
+ 374156 string characters out of 5886116
  684603 words of memory out of 5000000
  40747 multiletter control sequences out of 15000+600000
- 511291 words of font info for 121 fonts, out of 8000000 for 9000
+ 512758 words of font info for 127 fonts, out of 8000000 for 9000
  475 hyphenation exceptions out of 8191
  85i,17n,131p,1302b,2136s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/tempora/tmp_ac5xuc.enc}{/usr/s
 hare/texlive/texmf-dist/fonts/enc/dvips/tempora/t2a-tempora.enc}</usr/share/tex
 live/texmf-dist/fonts/type1/public/tempora/Tempora-Bold.pfb></usr/share/texlive
 /texmf-dist/fonts/type1/public/tempora/Tempora-Regular.pfb>
-Output written on paper.pdf (15 pages, 100246 bytes).
+Output written on paper.pdf (16 pages, 105034 bytes).
 PDF statistics:
- 193 PDF objects out of 1000 (max. 8388607)
- 162 compressed objects within 2 object streams
- 36 named destinations out of 1000 (max. 500000)
+ 200 PDF objects out of 1000 (max. 8388607)
+ 168 compressed objects within 2 object streams
+ 37 named destinations out of 1000 (max. 500000)
  25738 words of extra memory for PDF output out of 29859 (max. 10000000)
 
