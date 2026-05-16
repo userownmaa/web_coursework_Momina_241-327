@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.4.1)  12 MAY 2026 16:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.4.1)  16 MAY 2026 14:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1515,6 +1515,14 @@ Package: titlesec 2021/07/05 v2.14 Sectioning titles
 \titlewidthlast=\dimen167
 \titlewidthfirst=\dimen168
 )
+(/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count287
+\float@exts=\toks26
+\float@box=\box54
+\@float@everytoks=\toks27
+\@floatcapt=\box55
+)
 (/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
 Package: caption 2020/10/26 v3.5g Customizing captions (AR)
 
@@ -1529,8 +1537,9 @@ Package: caption3 2020/10/21 v2.2e caption3 kernel (AR)
 \caption@hangindent=\dimen175
 Package caption Info: Standard document class detected.
 )
-\c@caption@flags=\count287
-\c@continuedfloat=\count288
+\c@caption@flags=\count288
+\c@continuedfloat=\count289
+Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 )
 (/usr/share/texlive/texmf-dist/tex/latex/chngcntr/chngcntr.sty
@@ -1541,12 +1550,12 @@ Package chngcntr Info: \counterwithout already defined.
 (/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty
 Package: array 2021/10/04 v2.5f Tabular extension package (FMi)
 \col@sep=\dimen176
-\ar@mcellbox=\box54
+\ar@mcellbox=\box56
 \extrarowheight=\dimen177
-\NC@list=\toks26
+\NC@list=\toks28
 \extratabsurround=\skip56
 \backup@length=\skip57
-\ar@cellbox=\box55
+\ar@cellbox=\box57
 )
 (/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
@@ -1560,18 +1569,18 @@ Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \cmidrulesep=\dimen185
 \cmidrulekern=\dimen186
 \defaultaddspace=\dimen187
-\@cmidla=\count289
-\@cmidlb=\count290
+\@cmidla=\count290
+\@cmidlb=\count291
 \@aboverulesep=\dimen188
 \@belowrulesep=\dimen189
-\@thisruleclass=\count291
-\@lastruleclass=\count292
+\@thisruleclass=\count292
+\@lastruleclass=\count293
 \@thisrulewidth=\dimen190
 )
 (/usr/share/texlive/texmf-dist/tex/latex/multirow/multirow.sty
 Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
 \multirow@colwidth=\skip58
-\multirow@cntb=\count293
+\multirow@cntb=\count294
 \multirow@dima=\skip59
 \bigstrutjot=\dimen191
 )
@@ -1582,8 +1591,8 @@ Package: tabularx 2020/01/15 v2.11c `tabularx' package (DPC)
 \TX@old@col=\dimen194
 \TX@target=\dimen195
 \TX@delta=\dimen196
-\TX@cols=\count294
-\TX@ftn=\toks27
+\TX@cols=\count295
+\TX@ftn=\toks29
 )
 (/usr/share/texlive/texmf-dist/tex/latex/tools/longtable.sty
 Package: longtable 2021-09-01 v4.17 Multi-page Table package (DPC)
@@ -1591,18 +1600,18 @@ Package: longtable 2021-09-01 v4.17 Multi-page Table package (DPC)
 \LTright=\skip61
 \LTpre=\skip62
 \LTpost=\skip63
-\LTchunksize=\count295
+\LTchunksize=\count296
 \LTcapwidth=\dimen197
-\LT@head=\box56
-\LT@firsthead=\box57
-\LT@foot=\box58
-\LT@lastfoot=\box59
-\LT@gbox=\box60
-\LT@cols=\count296
-\LT@rows=\count297
-\c@LT@tables=\count298
-\c@LT@chunks=\count299
-\LT@p@ftn=\toks28
+\LT@head=\box58
+\LT@firsthead=\box59
+\LT@foot=\box60
+\LT@lastfoot=\box61
+\LT@gbox=\box62
+\LT@cols=\count297
+\LT@rows=\count298
+\c@LT@tables=\count299
+\c@LT@chunks=\count300
+\LT@p@ftn=\toks30
 )
 (/usr/share/texlive/texmf-dist/tex/latex/pdflscape/pdflscape.sty
 Package: pdflscape 2019/12/05 v0.12 Display of landscape pages in PDF (HO)
@@ -1622,7 +1631,7 @@ Package: amstext 2021/08/26 v2.01 AMS text
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
-\@emptytoks=\toks29
+\@emptytoks=\toks31
 \ex@=\dimen198
 ))
 (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty
@@ -1632,41 +1641,41 @@ Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2021/08/26 v2.02 operator names
 )
-\inf@bad=\count300
+\inf@bad=\count301
 LaTeX Info: Redefining \frac on input line 234.
-\uproot@=\count301
-\leftroot@=\count302
+\uproot@=\count302
+\leftroot@=\count303
 LaTeX Info: Redefining \overline on input line 399.
-\classnum@=\count303
-\DOTSCASE@=\count304
+\classnum@=\count304
+\DOTSCASE@=\count305
 LaTeX Info: Redefining \ldots on input line 496.
 LaTeX Info: Redefining \dots on input line 499.
 LaTeX Info: Redefining \cdots on input line 620.
-\Mathstrutbox@=\box61
-\strutbox@=\box62
+\Mathstrutbox@=\box63
+\strutbox@=\box64
 \big@size=\dimen256
 LaTeX Font Info:    Redeclaring font encoding OML on input line 743.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
-\macc@depth=\count305
-\c@MaxMatrixCols=\count306
+\macc@depth=\count306
+\c@MaxMatrixCols=\count307
 \dotsspace@=\muskip17
-\c@parentequation=\count307
-\dspbrk@lvl=\count308
-\tag@help=\toks30
-\row@=\count309
-\column@=\count310
-\maxfields@=\count311
-\andhelp@=\toks31
+\c@parentequation=\count308
+\dspbrk@lvl=\count309
+\tag@help=\toks32
+\row@=\count310
+\column@=\count311
+\maxfields@=\count312
+\andhelp@=\toks33
 \eqnshift@=\dimen257
 \alignsep@=\dimen258
 \tagshift@=\dimen259
 \tagwidth@=\dimen260
 \totwidth@=\dimen261
 \lineht@=\dimen262
-\@envbody=\toks32
+\@envbody=\toks34
 \multlinegap=\skip65
 \multlinetaggap=\skip66
-\mathdisplay@stack=\toks33
+\mathdisplay@stack=\toks35
 LaTeX Info: Redefining \[ on input line 2938.
 LaTeX Info: Redefining \] on input line 2939.
 )
@@ -1687,7 +1696,7 @@ Package: mathtools 2021/02/02 v1.28 mathematical typesetting tools
 (/usr/share/texlive/texmf-dist/tex/latex/mathtools/mhsetup.sty
 Package: mhsetup 2021/03/18 v1.4 programming setup (MH)
 )
-\g_MT_multlinerow_int=\count312
+\g_MT_multlinerow_int=\count313
 \l_MT_multwidth_dim=\dimen263
 \origjot=\skip67
 \l_MT_shortvdotswithinadjustabove_dim=\dimen264
@@ -1696,7 +1705,7 @@ Package: mhsetup 2021/03/18 v1.4 programming setup (MH)
 \l_MT_below_intertext_sep=\dimen267
 \l_MT_above_shortintertext_sep=\dimen268
 \l_MT_below_shortintertext_sep=\dimen269
-\xmathstrut@box=\box63
+\xmathstrut@box=\box65
 \xmathstrut@dim=\dimen270
 )
 (/usr/share/texlive/texmf-dist/tex/latex/was/icomma.sty
@@ -1704,33 +1713,33 @@ Package: icomma 2002/03/10 v2.0 (WaS)
 )
 (/usr/share/texlive/texmf-dist/tex/latex/enumitem/enumitem.sty
 Package: enumitem 2019/06/20 v3.9 Customized lists
-\enitkv@toks@=\toks34
+\enitkv@toks@=\toks36
 \labelindent=\skip68
 \enit@outerparindent=\dimen271
-\enit@toks=\toks35
-\enit@inbox=\box64
-\enit@count@id=\count313
-\enitdp@description=\count314
+\enit@toks=\toks37
+\enit@inbox=\box66
+\enit@count@id=\count314
+\enitdp@description=\count315
 )
 (/usr/share/texlive/texmf-dist/tex/latex/listings/listings.sty
-\lst@mode=\count315
-\lst@gtempboxa=\box65
-\lst@token=\toks36
-\lst@length=\count316
+\lst@mode=\count316
+\lst@gtempboxa=\box67
+\lst@token=\toks38
+\lst@length=\count317
 \lst@currlwidth=\dimen272
-\lst@column=\count317
-\lst@pos=\count318
+\lst@column=\count318
+\lst@pos=\count319
 \lst@lostspace=\dimen273
 \lst@width=\dimen274
-\lst@newlines=\count319
-\lst@lineno=\count320
+\lst@newlines=\count320
+\lst@lineno=\count321
 \lst@maxwidth=\dimen275
 
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2020/03/24 1.8d (Carsten Heinz)
-\c@lstnumber=\count321
-\lst@skipnumbers=\count322
-\lst@framebox=\box66
+\c@lstnumber=\count322
+\lst@skipnumbers=\count323
+\lst@framebox=\box68
 )
 (/usr/share/texlive/texmf-dist/tex/latex/listings/listings.cfg
 File: listings.cfg 2020/03/24 1.8d listings configuration
@@ -1749,8 +1758,8 @@ LaTeX Font Info:    Font shape `T1/Tempora-TLF/m/n' will be
 
 (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2022-01-12 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count323
-\l__pdf_internal_box=\box67
+\l__color_backend_stack_int=\count324
+\l__pdf_internal_box=\box69
 )
 (./paper.aux (./title.aux)
 LaTeX Font Info:    Trying to load font information for T2A+Tempora-TLF on inpu
@@ -1817,22 +1826,22 @@ LaTeX Font Info:    ... okay on input line 13.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 13.
 LaTeX Font Info:    ... okay on input line 13.
 LaTeX Info: Redefining \th on input line 13.
-\c@mv@tabular=\count324
-\c@mv@boldtabular=\count325
+\c@mv@tabular=\count325
+\c@mv@boldtabular=\count326
 
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count326
+\scratchcounter=\count327
 \scratchdimen=\dimen276
-\scratchbox=\box68
-\nofMPsegments=\count327
-\nofMParguments=\count328
-\everyMPshowfont=\toks37
-\MPscratchCnt=\count329
+\scratchbox=\box70
+\nofMPsegments=\count328
+\nofMParguments=\count329
+\everyMPshowfont=\toks39
+\MPscratchCnt=\count330
 \MPscratchDim=\dimen277
-\MPnumerator=\count330
-\makeMPintoPDFobject=\count331
-\everyMPtoPDFconversion=\toks38
+\MPnumerator=\count331
+\makeMPintoPDFobject=\count332
+\everyMPtoPDFconversion=\toks40
 ) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
@@ -1910,7 +1919,7 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 (/usr/share/texlive/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count332
+\c@section@level=\count333
 )
 LaTeX Info: Redefining \ref on input line 13.
 LaTeX Info: Redefining \pageref on input line 13.
@@ -1928,7 +1937,7 @@ Package caption Info: longtable package is loaded.
 Package: ltcaption 2020/05/30 v1.4b longtable captions (AR)
 )
 Package caption Info: End \AtBeginDocument code.
-\c@lstlisting=\count333
+\c@lstlisting=\count334
 \openout2 = `title.aux'.
 
  (./title.tex
@@ -1972,7 +1981,7 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}])
-<task.pdf, id=63, 597.50829pt x 845.0471pt>
+<task.pdf, id=64, 597.50829pt x 845.0471pt>
 File: task.pdf Graphic file (type pdf)
 <use task.pdf>
 Package pdftex.def Info: task.pdf  used on input line 19.
@@ -1981,7 +1990,7 @@ File: task.pdf Graphic file (type pdf)
 <use task.pdf>
 Package pdftex.def Info: task.pdf  used on input line 19.
 (pdftex.def)             Requested size: 597.50682pt x 845.04504pt.
-<task.pdf, id=66, page=1, 597.50829pt x 845.0471pt>
+<task.pdf, id=67, page=1, 597.50829pt x 845.0471pt>
 File: task.pdf Graphic file (type pdf)
 <use task.pdf, page 1>
 Package pdftex.def Info: task.pdf , page1 used on input line 19.
@@ -2006,7 +2015,7 @@ Package pdftex.def Info: task.pdf , page1 used on input line 19.
 
 
  <./task.pdf>]
-<task.pdf, id=84, page=2, 597.50829pt x 845.0471pt>
+<task.pdf, id=85, page=2, 597.50829pt x 845.0471pt>
 File: task.pdf Graphic file (type pdf)
 <use task.pdf, page 2>
 Package pdftex.def Info: task.pdf , page2 used on input line 19.
@@ -2082,17 +2091,139 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 
-]) [14]
+] [14]
+Underfull \hbox (badness 10000) in paragraph at lines 137--137
+[]|\T2A/Tempora-TLF/m/n/12 (+20) Неавторизованный
+ []
+
+[15]
+<images/auth_use_case.jpg, id=175, 670.00313pt x 692.5875pt>
+File: images/auth_use_case.jpg Graphic file (type jpg)
+<use images/auth_use_case.jpg>
+Package pdftex.def Info: images/auth_use_case.jpg  used on input line 151.
+(pdftex.def)             Requested size: 328.6279pt x 339.69844pt.
+ [16 <./images/auth_use_case.jpg>]
+<images/transactions_use_case.jpg, id=182, 682.04813pt x 643.6547pt>
+File: images/transactions_use_case.jpg Graphic file (type jpg)
+<use images/transactions_use_case.jpg>
+Package pdftex.def Info: images/transactions_use_case.jpg  used on input line 1
+84.
+(pdftex.def)             Requested size: 328.6279pt x 310.1293pt.
+ [17 <./images/transactions_use_case.jpg>]
+<images/categories_budgets_use_case.jpg, id=189, 521.69907pt x 682.80093pt>
+File: images/categories_budgets_use_case.jpg Graphic file (type jpg)
+<use images/categories_budgets_use_case.jpg>
+Package pdftex.def Info: images/categories_budgets_use_case.jpg  used on input 
+line 217.
+(pdftex.def)             Requested size: 328.6279pt x 430.11476pt.
+ [18 <./images/categories_budgets_use_case.jpg>]
+<images/files_use_case.jpg, id=196, 397.485pt x 694.09312pt>
+File: images/files_use_case.jpg Graphic file (type jpg)
+<use images/files_use_case.jpg>
+Package pdftex.def Info: images/files_use_case.jpg  used on input line 252.
+(pdftex.def)             Requested size: 234.73524pt x 409.90326pt.
+ [19 <./images/files_use_case.jpg>]
+<images/analytics_use_case.jpg, id=204, 897.3525pt x 660.21657pt>
+File: images/analytics_use_case.jpg Graphic file (type jpg)
+<use images/analytics_use_case.jpg>
+Package pdftex.def Info: images/analytics_use_case.jpg  used on input line 285.
+
+(pdftex.def)             Requested size: 328.6279pt x 241.77792pt.
+ [20 <./images/analytics_use_case.jpg>]
+<images/admin_use_case.jpg, id=211, 765.6103pt x 695.59875pt>
+File: images/admin_use_case.jpg Graphic file (type jpg)
+<use images/admin_use_case.jpg>
+Package pdftex.def Info: images/admin_use_case.jpg  used on input line 316.
+(pdftex.def)             Requested size: 328.6279pt x 298.58154pt.
+ [21 <./images/admin_use_case.jpg>] [22]
+LaTeX Font Info:    Trying to load font information for T2A+cmtt on input line 
+419.
+ (/usr/share/texlive/texmf-dist/tex/latex/cyrillic/t2acmtt.fd
+File: t2acmtt.fd 2001/08/11 v1.0a Computer Modern Cyrillic font definitions
+)
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `cmtt' (encoding: T2A).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+ [23]
+<images/er_diagram.jpg, id=227, 963.6pt x 596.2275pt>
+File: images/er_diagram.jpg Graphic file (type jpg)
+<use images/er_diagram.jpg>
+Package pdftex.def Info: images/er_diagram.jpg  used on input line 461.
+(pdftex.def)             Requested size: 422.52057pt x 261.43114pt.
+
+[24] [25 <./images/er_diagram.jpg>]
+<images/wireframe_login.jpg, id=239, 963.6pt x 620.3175pt>
+File: images/wireframe_login.jpg Graphic file (type jpg)
+<use images/wireframe_login.jpg>
+Package pdftex.def Info: images/wireframe_login.jpg  used on input line 488.
+(pdftex.def)             Requested size: 281.68515pt x 181.32619pt.
+<images/wireframe_register.jpg, id=240, 963.6pt x 622.57594pt>
+File: images/wireframe_register.jpg Graphic file (type jpg)
+<use images/wireframe_register.jpg>
+Package pdftex.def Info: images/wireframe_register.jpg  used on input line 499.
+
+(pdftex.def)             Requested size: 281.68515pt x 181.98636pt.
+ [26 <./images/wireframe_login.jpg> <./images/wireframe_register.jpg>]
+<images/wireframe_dashboard_admin.jpg, id=247, 539.76656pt x 691.08188pt>
+File: images/wireframe_dashboard_admin.jpg Graphic file (type jpg)
+<use images/wireframe_dashboard_admin.jpg>
+Package pdftex.def Info: images/wireframe_dashboard_admin.jpg  used on input li
+ne 510.
+(pdftex.def)             Requested size: 281.68515pt x 360.65114pt.
+<images/wireframe_dashboard_owner.jpg, id=248, 460.72125pt x 637.63219pt>
+File: images/wireframe_dashboard_owner.jpg Graphic file (type jpg)
+<use images/wireframe_dashboard_owner.jpg>
+Package pdftex.def Info: images/wireframe_dashboard_owner.jpg  used on input li
+ne 521.
+(pdftex.def)             Requested size: 281.68515pt x 389.84045pt.
+ [27 <./images/wireframe_dashboard_admin.jpg>]
+<images/wireframe_dashboard_member.jpg, id=254, 615.0478pt x 677.53125pt>
+File: images/wireframe_dashboard_member.jpg Graphic file (type jpg)
+<use images/wireframe_dashboard_member.jpg>
+Package pdftex.def Info: images/wireframe_dashboard_member.jpg  used on input l
+ine 532.
+(pdftex.def)             Requested size: 281.68515pt x 310.3035pt.
+
+[28 <./images/wireframe_dashboard_owner.jpg>]
+<images/wireframe_profile.jpg, id=260, 733.99219pt x 651.93562pt>
+File: images/wireframe_profile.jpg Graphic file (type jpg)
+<use images/wireframe_profile.jpg>
+Package pdftex.def Info: images/wireframe_profile.jpg  used on input line 543.
+(pdftex.def)             Requested size: 281.68515pt x 250.19519pt.
+ [29 <./images/wireframe_dashboard_member.jpg> <./images/wireframe_profile.jpg>
+]
+<images/wireframe_members_management.jpg, id=267, 963.6pt x 621.07031pt>
+File: images/wireframe_members_management.jpg Graphic file (type jpg)
+<use images/wireframe_members_management.jpg>
+Package pdftex.def Info: images/wireframe_members_management.jpg  used on input
+ line 554.
+(pdftex.def)             Requested size: 281.68515pt x 181.54623pt.
+<images/wireframe_transactions.jpg, id=268, 963.6pt x 619.56468pt>
+File: images/wireframe_transactions.jpg Graphic file (type jpg)
+<use images/wireframe_transactions.jpg>
+Package pdftex.def Info: images/wireframe_transactions.jpg  used on input line 
+565.
+(pdftex.def)             Requested size: 281.68515pt x 181.10612pt.
+ [30 <./images/wireframe_members_management.jpg> <./images/wireframe_transactio
+ns.jpg>]
+<images/wireframe_categories.jpg, id=275, 963.6pt x 619.56468pt>
+File: images/wireframe_categories.jpg Graphic file (type jpg)
+<use images/wireframe_categories.jpg>
+Package pdftex.def Info: images/wireframe_categories.jpg  used on input line 57
+6.
+(pdftex.def)             Requested size: 281.68515pt x 181.10612pt.
+) [31 <./images/wireframe_categories.jpg>]
 \openout2 = `chapter3.aux'.
 
- (./chapter3.tex) [15
+ (./chapter3.tex) [32
 
 
 
 ]
 \openout2 = `conclusion.aux'.
 
- (./conclusion.tex) [16
+ (./conclusion.tex) [33
 
 
 
@@ -2116,41 +2247,38 @@ siyane-[]stali-[]khuzhe-[]schitat-[]protsenty/$[]
 
 )
 
-Package caption Warning: Unused \captionsetup[figure] on input line 124.
+Package caption Warning: Unused \captionsetup[longtable] on input line 146.
 See the caption package documentation for explanation.
 
 
-Package caption Warning: Unused \captionsetup[longtable] on input line 145.
+Package caption Warning: Unused \captionsetup[lstlisting] on input line 248.
 See the caption package documentation for explanation.
 
-
-Package caption Warning: Unused \captionsetup[lstlisting] on input line 247.
-See the caption package documentation for explanation.
-
-[17
+[34
 
 
 ] (./paper.aux (./title.aux) (./intro.aux) (./chapter1.aux) (./chapter2.aux) (.
 /chapter3.aux) (./conclusion.aux))
 Package rerunfilecheck Info: File `paper.out' has not changed.
-(rerunfilecheck)             Checksum: D2FC30959A8BFA86815031E7153CDBBF;4154.
+(rerunfilecheck)             Checksum: 0225476987CB0042F069B1F194D53161;4163.
  ) 
 Here is how much of TeX's memory you used:
- 23374 strings out of 479648
- 374478 string characters out of 5886116
- 689698 words of memory out of 5000000
- 40752 multiletter control sequences out of 15000+600000
- 513256 words of font info for 129 fonts, out of 8000000 for 9000
+ 23695 strings out of 479648
+ 382436 string characters out of 5886116
+ 693919 words of memory out of 5000000
+ 40958 multiletter control sequences out of 15000+600000
+ 518947 words of font info for 154 fonts, out of 8000000 for 9000
  475 hyphenation exceptions out of 8191
  85i,17n,131p,1302b,2136s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texlive/texmf-dist/fonts/enc/dvips/tempora/tmp_ac5xuc.enc}{/usr/s
-hare/texlive/texmf-dist/fonts/enc/dvips/tempora/t2a-tempora.enc}</usr/share/tex
-live/texmf-dist/fonts/type1/public/tempora/Tempora-Bold.pfb></usr/share/texlive
-/texmf-dist/fonts/type1/public/tempora/Tempora-Regular.pfb>
-Output written on paper.pdf (17 pages, 109543 bytes).
+ </home/admin/.texlive2021/texmf-var/fonts/pk/ljfour/lh/lh-t2a/latt1440.600pk
+>{/usr/share/texlive/texmf-dist/fonts/enc/dvips/tempora/tmp_ac5xuc.enc}{/usr/sh
+are/texlive/texmf-dist/fonts/enc/dvips/tempora/t2a-tempora.enc}</usr/share/texl
+ive/texmf-dist/fonts/type1/public/tempora/Tempora-Bold.pfb></usr/share/texlive/
+texmf-dist/fonts/type1/public/tempora/Tempora-Regular.pfb>
+Output written on paper.pdf (34 pages, 1720529 bytes).
 PDF statistics:
- 211 PDF objects out of 1000 (max. 8388607)
- 178 compressed objects within 2 object streams
- 44 named destinations out of 1000 (max. 500000)
- 25738 words of extra memory for PDF output out of 29859 (max. 10000000)
+ 347 PDF objects out of 1000 (max. 8388607)
+ 268 compressed objects within 3 object streams
+ 85 named destinations out of 1000 (max. 500000)
+ 26330 words of extra memory for PDF output out of 29859 (max. 10000000)
 
