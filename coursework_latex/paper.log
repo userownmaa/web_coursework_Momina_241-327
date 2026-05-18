@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.4.1)  16 MAY 2026 14:13
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.4.1)  19 MAY 2026 00:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2146,74 +2146,74 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
  [23]
-<images/er_diagram.jpg, id=227, 963.6pt x 596.2275pt>
+[24]
+<images/er_diagram.jpg, id=232, 1927.2pt x 1020.81375pt>
 File: images/er_diagram.jpg Graphic file (type jpg)
 <use images/er_diagram.jpg>
-Package pdftex.def Info: images/er_diagram.jpg  used on input line 461.
-(pdftex.def)             Requested size: 422.52057pt x 261.43114pt.
-
-[24] [25 <./images/er_diagram.jpg>]
+Package pdftex.def Info: images/er_diagram.jpg  used on input line 465.
+(pdftex.def)             Requested size: 445.99553pt x 236.23082pt.
+ [25 <./images/er_diagram.jpg>]
 <images/wireframe_login.jpg, id=239, 963.6pt x 620.3175pt>
 File: images/wireframe_login.jpg Graphic file (type jpg)
 <use images/wireframe_login.jpg>
-Package pdftex.def Info: images/wireframe_login.jpg  used on input line 488.
+Package pdftex.def Info: images/wireframe_login.jpg  used on input line 492.
 (pdftex.def)             Requested size: 281.68515pt x 181.32619pt.
 <images/wireframe_register.jpg, id=240, 963.6pt x 622.57594pt>
 File: images/wireframe_register.jpg Graphic file (type jpg)
 <use images/wireframe_register.jpg>
-Package pdftex.def Info: images/wireframe_register.jpg  used on input line 499.
+Package pdftex.def Info: images/wireframe_register.jpg  used on input line 503.
 
 (pdftex.def)             Requested size: 281.68515pt x 181.98636pt.
- [26 <./images/wireframe_login.jpg> <./images/wireframe_register.jpg>]
-<images/wireframe_dashboard_admin.jpg, id=247, 539.76656pt x 691.08188pt>
+ [26 <./images/wireframe_login.jpg>]
+<images/wireframe_dashboard_admin.jpg, id=246, 539.76656pt x 691.08188pt>
 File: images/wireframe_dashboard_admin.jpg Graphic file (type jpg)
 <use images/wireframe_dashboard_admin.jpg>
 Package pdftex.def Info: images/wireframe_dashboard_admin.jpg  used on input li
-ne 510.
+ne 514.
 (pdftex.def)             Requested size: 281.68515pt x 360.65114pt.
-<images/wireframe_dashboard_owner.jpg, id=248, 460.72125pt x 637.63219pt>
+
+[27 <./images/wireframe_register.jpg> <./images/wireframe_dashboard_admin.jpg>]
+<images/wireframe_dashboard_owner.jpg, id=253, 460.72125pt x 637.63219pt>
 File: images/wireframe_dashboard_owner.jpg Graphic file (type jpg)
 <use images/wireframe_dashboard_owner.jpg>
 Package pdftex.def Info: images/wireframe_dashboard_owner.jpg  used on input li
-ne 521.
+ne 525.
 (pdftex.def)             Requested size: 281.68515pt x 389.84045pt.
- [27 <./images/wireframe_dashboard_admin.jpg>]
-<images/wireframe_dashboard_member.jpg, id=254, 615.0478pt x 677.53125pt>
+[28 <./images/wireframe_dashboard_owner.jpg>]
+<images/wireframe_dashboard_member.jpg, id=259, 615.0478pt x 677.53125pt>
 File: images/wireframe_dashboard_member.jpg Graphic file (type jpg)
 <use images/wireframe_dashboard_member.jpg>
 Package pdftex.def Info: images/wireframe_dashboard_member.jpg  used on input l
-ine 532.
+ine 536.
 (pdftex.def)             Requested size: 281.68515pt x 310.3035pt.
-
-[28 <./images/wireframe_dashboard_owner.jpg>]
 <images/wireframe_profile.jpg, id=260, 733.99219pt x 651.93562pt>
 File: images/wireframe_profile.jpg Graphic file (type jpg)
 <use images/wireframe_profile.jpg>
-Package pdftex.def Info: images/wireframe_profile.jpg  used on input line 543.
+Package pdftex.def Info: images/wireframe_profile.jpg  used on input line 547.
 (pdftex.def)             Requested size: 281.68515pt x 250.19519pt.
- [29 <./images/wireframe_dashboard_member.jpg> <./images/wireframe_profile.jpg>
-]
-<images/wireframe_members_management.jpg, id=267, 963.6pt x 621.07031pt>
+ [29 <./images/wireframe_dashboard_member.jpg>]
+<images/wireframe_members_management.jpg, id=266, 963.6pt x 621.07031pt>
 File: images/wireframe_members_management.jpg Graphic file (type jpg)
 <use images/wireframe_members_management.jpg>
 Package pdftex.def Info: images/wireframe_members_management.jpg  used on input
- line 554.
+ line 558.
 (pdftex.def)             Requested size: 281.68515pt x 181.54623pt.
-<images/wireframe_transactions.jpg, id=268, 963.6pt x 619.56468pt>
+ [30 <./images/wireframe_profile.jpg> <./images/wireframe_members_management.jp
+g>]
+<images/wireframe_transactions.jpg, id=273, 963.6pt x 619.56468pt>
 File: images/wireframe_transactions.jpg Graphic file (type jpg)
 <use images/wireframe_transactions.jpg>
 Package pdftex.def Info: images/wireframe_transactions.jpg  used on input line 
-565.
+569.
 (pdftex.def)             Requested size: 281.68515pt x 181.10612pt.
- [30 <./images/wireframe_members_management.jpg> <./images/wireframe_transactio
-ns.jpg>]
-<images/wireframe_categories.jpg, id=275, 963.6pt x 619.56468pt>
+<images/wireframe_categories.jpg, id=274, 963.6pt x 619.56468pt>
 File: images/wireframe_categories.jpg Graphic file (type jpg)
 <use images/wireframe_categories.jpg>
-Package pdftex.def Info: images/wireframe_categories.jpg  used on input line 57
-6.
+Package pdftex.def Info: images/wireframe_categories.jpg  used on input line 58
+0.
 (pdftex.def)             Requested size: 281.68515pt x 181.10612pt.
-) [31 <./images/wireframe_categories.jpg>]
+) [31 <./images/wireframe_transactions.jpg> <./images/wireframe_categories.jpg>
+]
 \openout2 = `chapter3.aux'.
 
  (./chapter3.tex) [32
@@ -2275,7 +2275,7 @@ Here is how much of TeX's memory you used:
 are/texlive/texmf-dist/fonts/enc/dvips/tempora/t2a-tempora.enc}</usr/share/texl
 ive/texmf-dist/fonts/type1/public/tempora/Tempora-Bold.pfb></usr/share/texlive/
 texmf-dist/fonts/type1/public/tempora/Tempora-Regular.pfb>
-Output written on paper.pdf (34 pages, 1720529 bytes).
+Output written on paper.pdf (34 pages, 1982480 bytes).
 PDF statistics:
  347 PDF objects out of 1000 (max. 8388607)
  268 compressed objects within 3 object streams
