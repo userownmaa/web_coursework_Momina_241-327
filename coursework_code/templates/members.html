@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+{% block title %}Участники — MoneyManage{% endblock %}
+
+{% block nav %}
+<li class="nav-item"><a class="nav-link" href="{{ url_for('main.owner_dashboard') }}">Главная</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ url_for('main.transactions') }}">Транзакции</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ url_for('main.categories') }}">Категории</a></li>
+<li class="nav-item"><a class="nav-link active" href="{{ url_for('main.members') }}">Участники</a></li>
+{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Управление участниками семьи</h2>
+
+<!-- Блок с кодом приглашения -->
+<div class="card mb-4">
+    <div class="card-header bg-info text-white">
+        <h5 class="mb-0">Код приглашения для новых участников</h5>
+    </div>
+    <div class="card-body">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <p class="mb-2">Поделитесь этим кодом с новыми участниками семьи. Они смогут зарегистрироваться, используя этот код.</p>
+                <div class="input-group">
+                    <input type="text" class="form-control form-control-lg font-monospace" id="inviteCode" value="{{ invite_code }}" readonly>
+                    <button class="btn btn-outline-secondary" onclick="copyInviteCode()" type="button">
+                        <i class="bi bi-clipboard"></i> Копировать
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-4 text-end">
+                <form method="POST" action="{{ url_for('main.generate_invite_code_route') }}">
+                    <button type="submit" class="btn btn-warning">
+                        <i class="bi bi-arrow-repeat"></i> Сгенерировать новый код
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h4 class="mb-3">Список участников семьи</h4>
+
+<div class="d-flex flex-wrap gap-2 mb-4">
+    <div class="input-group" style="max-width: 380px;">
+        <input type="text" class="form-control" id="searchMember" placeholder="Поиск участника...">
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover align-middle" id="membersTable">
+        <thead class="table-light">
+            <tr>
+                <th>Имя</th>
+                <th>Роль</th>
+                <th>Email</th>
+                <th>Бюджет (₽)</th>
+                <th class="text-center">Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for member in members %}
+            <tr>
+                <td>
+                    <strong>{{ member.username }}</strong>
+                    {% if member.id == user.id %}
+                        <span class="badge bg-primary ms-2">Это вы</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if member.role == 'owner' %}
+                        <span class="badge bg-success">Владелец</span>
+                    {% elif member.role == 'admin' %}
+                        <span class="badge bg-danger">Админ</span>
+                    {% else %}
+                        <span class="badge bg-secondary">Участник</span>
+                    {% endif %}
+                </td>
+                <td>{{ member.email }}</td>
+                <td>
+                    {% set member_budget = member.user_budgets|first %}
+                    {% if member_budget %}
+                        {{ "{:,.0f}".format(member_budget.amount_limit) }} ₽
+                    {% else %}
+                        <span class="text-muted">Не установлен</span>
+                    {% endif %}
+                </td>
+                <td class="text-center">
+                    <button class="btn btn-sm btn-outline-primary me-2" onclick="viewMemberDetails({{ member.id }})">
+                        <i class="bi bi-info-circle"></i> Подробнее
+                    </button>
+                    <!-- Кнопка "Установить бюджет" для всех, кроме админа (если не владелец) -->
+                    {% if member.role != 'admin' %}
+                    <button class="btn btn-sm btn-outline-success me-2" onclick="setMemberBudget({{ member.id }}, '{{ member.username }}')">
+                        <i class="bi bi-wallet2"></i> Установить бюджет
+                    </button>
+                    {% endif %}
+                    <!-- Кнопка удаления только для участников (не владелец и не текущий пользователь) -->
+                    {% if member.id != user.id and member.role != 'owner' %}
+                    <button class="btn btn-sm btn-outline-danger" onclick="deleteMember({{ member.id }})">
+                        <i class="bi bi-trash"></i> Удалить
+                    </button>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Модальное окно установки бюджета -->
+<div class="modal fade" id="setMemberBudgetModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Установить бюджет</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="{{ url_for('main.set_user_budget') }}">
+                <input type="hidden" name="user_id" id="budget_user_id">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Участник</label>
+                        <input type="text" id="budget_username" class="form-control" readonly disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Сумма бюджета (₽)</label>
+                        <input type="number" step="0.01" name="amount_limit" class="form-control" required placeholder="Например: 10000">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Период</label>
+                        <select name="period" class="form-select" required>
+                            <option value="month">Месяц</option>
+                            <option value="year">Год</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Описание</label>
+                        <textarea name="description" class="form-control" rows="2" placeholder="Например: Карманные деньги на месяц"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-success">Установить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function copyInviteCode() {
+    var copyText = document.getElementById("inviteCode");
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+    alert("Код скопирован: " + copyText.value);
+}
+
+// Поиск участников
+document.getElementById('searchMember').addEventListener('keyup', function() {
+    let searchTerm = this.value.toLowerCase();
+    let table = document.getElementById('membersTable');
+    let rows = table.getElementsByTagName('tr');
+    
+    for(let i = 1; i < rows.length; i++) {
+        let nameCell = rows[i].getElementsByTagName('td')[0];
+        if(nameCell) {
+            let textValue = nameCell.textContent || nameCell.innerText;
+            if(textValue.toLowerCase().indexOf(searchTerm) > -1) {
+                rows[i].style.display = '';
+            } else {
+                rows[i].style.display = 'none';
+            }
+        }
+    }
+});
+
+function setMemberBudget(id, username) {
+    document.getElementById('budget_user_id').value = id;
+    document.getElementById('budget_username').value = username;
+    new bootstrap.Modal(document.getElementById('setMemberBudgetModal')).show();
+}
+
+function viewMemberDetails(id) {
+    fetch(`/api/get_user/${id}`)
+        .then(response => response.json())
+        .then(data => {
+            alert(`Информация об участнике:\n\nИмя: ${data.username}\nРоль: ${data.role}\nEmail: ${data.email}`);
+        });
+}
+
+function deleteMember(memberId) {
+    if(confirm('Вы уверены, что хотите удалить этого участника?')) {
+        fetch(`/api/delete_member/${memberId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success) {
+                location.reload();
+            } else {
+                alert('Ошибка при удалении: ' + data.message);
+            }
+        });
+    }
+}
+</script>
+{% endblock %}

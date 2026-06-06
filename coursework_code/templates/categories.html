@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+{% block title %}Категории — MoneyManage{% endblock %}
+
+{% block nav %}
+<li class="nav-item"><a class="nav-link" href="{{ url_for('main.owner_dashboard') }}">Главная</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ url_for('main.transactions') }}">Транзакции</a></li>
+<li class="nav-item"><a class="nav-link active" href="{{ url_for('main.categories') }}">Категории</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ url_for('main.members') }}">Участники</a></li>
+{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Управление категориями</h2>
+
+<!-- Поиск -->
+<div class="card mb-4">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <label class="form-label">Поиск категории</label>
+                <input type="text" id="searchCategory" class="form-control" placeholder="Введите название категории...">
+            </div>
+            <div class="col-md-6 d-flex align-items-end">
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
+                    <i class="bi bi-plus-circle"></i> Добавить категорию
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover align-middle" id="categoriesTable">
+        <thead class="table-light">
+            <tr>
+                <th>Название</th>
+                <th>Тип</th>
+                <th>Описание</th>
+                <th>Лимит</th>
+                <th class="text-center">Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for category in categories %}
+            <tr class="category-row">
+                <td>
+                    <strong>{{ category.name }}</strong>
+                    <div style="width: 20px; height: 20px; background-color: {{ category.color }}; border-radius: 4px; display: inline-block; margin-left: 10px;"></div>
+                </td>
+                <td>
+                    {% if category.type == 'income' %}
+                        <span class="badge bg-success">Доход</span>
+                    {% else %}
+                        <span class="badge bg-danger">Расход</span>
+                    {% endif %}
+                </td>
+                <td>{{ category.description if category.description else '—' }}</td>
+                <td>
+                    {% set limit = category.category_limits|first %}
+                    {% if limit %}
+                        {{ "{:,.0f}".format(limit.amount_limit) }} ₽ ({{ limit.period }})
+                    {% else %}
+                        <span class="text-muted">Не установлен</span>
+                    {% endif %}
+                </td>
+                <td class="text-center">
+                    <button class="btn btn-sm btn-outline-primary me-1" onclick="editCategory({{ category.id }})">
+                        <i class="bi bi-pencil"></i> Редактировать
+                    </button>
+                    <button class="btn btn-sm btn-outline-success me-1" onclick="setLimit({{ category.id }}, '{{ category.name }}')">
+                        <i class="bi bi-currency-dollar"></i> Лимит
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger" onclick="deleteCategory({{ category.id }}, '{{ category.name }}')">
+                        <i class="bi bi-trash"></i> Удалить
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if not categories %}
+<div class="alert alert-info text-center">
+    <i class="bi bi-info-circle"></i> У вас пока нет категорий. Создайте первую категорию!
+</div>
+{% endif %}
+
+<!-- Модальное окно добавления категории -->
+<div class="modal fade" id="addCategoryModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Добавить категорию</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="{{ url_for('main.add_category') }}">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Название категории</label>
+                        <input type="text" name="name" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Тип категории</label>
+                        <select name="type" class="form-select" required>
+                            <option value="expense">Расход</option>
+                            <option value="income">Доход</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Цвет</label>
+                        <input type="color" name="color" class="form-control" value="#007bff">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Описание</label>
+                        <textarea name="description" class="form-control" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-success">Добавить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно редактирования категории -->
+<div class="modal fade" id="editCategoryModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Редактировать категорию</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="{{ url_for('main.edit_category') }}">
+                <input type="hidden" name="category_id" id="edit_category_id">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Название категории</label>
+                        <input type="text" name="name" id="edit_name" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Тип категории</label>
+                        <select name="type" id="edit_type" class="form-select" required>
+                            <option value="expense">Расход</option>
+                            <option value="income">Доход</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Цвет</label>
+                        <input type="color" name="color" id="edit_color" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Описание</label>
+                        <textarea name="description" id="edit_description" class="form-control" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно установки лимита -->
+<div class="modal fade" id="setLimitModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Установить лимит на категорию</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="{{ url_for('main.set_category_limit') }}">
+                <input type="hidden" name="category_id" id="limit_category_id">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Категория</label>
+                        <input type="text" id="limit_category_name" class="form-control" readonly disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Сумма лимита (₽)</label>
+                        <input type="number" step="0.01" name="amount_limit" class="form-control" required placeholder="Например: 10000">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Период</label>
+                        <select name="period" class="form-select" required>
+                            <option value="month">Месяц</option>
+                            <option value="year">Год</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-success">Установить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+// Поиск категорий
+document.getElementById('searchCategory').addEventListener('keyup', function() {
+    let searchTerm = this.value.toLowerCase();
+    let rows = document.querySelectorAll('.category-row');
+    
+    rows.forEach(row => {
+        let nameCell = row.cells[0];
+        if(nameCell) {
+            let textValue = nameCell.textContent || nameCell.innerText;
+            if(textValue.toLowerCase().indexOf(searchTerm) > -1) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        }
+    });
+});
+
+// Редактирование категории
+function editCategory(id) {
+    fetch(`/api/get_category/${id}`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('edit_category_id').value = data.id;
+            document.getElementById('edit_name').value = data.name;
+            document.getElementById('edit_type').value = data.type;
+            document.getElementById('edit_color').value = data.color;
+            document.getElementById('edit_description').value = data.description || '';
+            
+            new bootstrap.Modal(document.getElementById('editCategoryModal')).show();
+        });
+}
+
+// Установка лимита
+function setLimit(id, name) {
+    document.getElementById('limit_category_id').value = id;
+    document.getElementById('limit_category_name').value = name;
+    new bootstrap.Modal(document.getElementById('setLimitModal')).show();
+}
+
+// Удаление категории
+function deleteCategory(id, name) {
+    if(confirm(`Вы уверены, что хотите удалить категорию "${name}"?\n\nВнимание! Все транзакции с этой категорией будут удалены!`)) {
+        fetch(`/api/delete_category/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success) {
+                location.reload();
+            } else {
+                alert('Ошибка при удалении: ' + data.message);
+            }
+        });
+    }
+}
+</script>
+{% endblock %}

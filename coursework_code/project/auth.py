@@ -1,0 +1,113 @@
+from flask import render_template, redirect, url_for, flash, request, Blueprint
+from flask_login import login_user, logout_user, current_user, login_required
+from project import db
+from project.models import User, Family, Category
+import secrets
+import string
+
+auth_bp = Blueprint('auth', __name__)
+
+def generate_invite_code():
+    """Генерация уникального кода приглашения"""
+    alphabet = string.ascii_uppercase + string.digits
+    return 'FAM-' + ''.join(secrets.choice(alphabet) for _ in range(6))
+
+@auth_bp.route('/login', methods=['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('main.index'))
+    
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        
+        user = User.query.filter_by(username=username).first()
+        
+        if user and user.check_password(password):
+            login_user(user)
+            flash(f'Добро пожаловать, {user.username}!', 'success')
+            
+            # Перенаправление на соответствующую страницу в зависимости от роли
+            if user.role == 'admin':
+                return redirect(url_for('admin.admin_dashboard'))
+            elif user.role == 'owner':
+                return redirect(url_for('main.owner_dashboard'))
+            else:
+                return redirect(url_for('main.member_dashboard'))
+        else:
+            flash('Неверное имя пользователя или пароль', 'danger')
+    
+    return render_template('auth/login.html')
+
+@auth_bp.route('/register', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('main.index'))
+    
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        role = request.form.get('role')
+        invite_code = request.form.get('invite_code')
+        
+        # Проверка, существует ли пользователь
+        existing_user = User.query.filter_by(username=username).first()
+        if existing_user:
+            flash('Пользователь с таким именем уже существует', 'danger')
+            return redirect(url_for('auth.register'))
+        
+        if role == 'owner':
+            # Создаем новую семью
+            new_invite_code = generate_invite_code()
+            family = Family(name=f"Семья {username}", invite_code=new_invite_code)
+            db.session.add(family)
+            db.session.flush()
+            
+            user = User(username=username, email=f"{username}@example.com", role='owner', family_id=family.id)
+            user.set_password(password)
+            db.session.add(user)
+            
+            flash(f'Семья "{family.name}" создана! Ваш код приглашения: {new_invite_code}', 'success')
+
+            default_categories = [
+                Category(name='Продукты', type='expense', color='#dc3545', description='Покупка продуктов питания', family_id=family.id),
+                Category(name='Транспорт', type='expense', color='#ffc107', description='Проезд, такси, бензин', family_id=family.id),
+                Category(name='Коммунальные услуги', type='expense', color='#17a2b8', description='Квартплата, свет, вода', family_id=family.id),
+                Category(name='Зарплата', type='income', color='#28a745', description='Заработная плата', family_id=family.id),
+                Category(name='Подработка', type='income', color='#20c997', description='Дополнительный доход', family_id=family.id),
+                Category(name='Кафе и рестораны', type='expense', color='#fd7e14', description='Обеды вне дома', family_id=family.id),
+                Category(name='Развлечения', type='expense', color='#6f42c1', description='Кино, игры, хобби', family_id=family.id),
+                Category(name='Одежда', type='expense', color='#e83e8c', description='Покупка одежды и обуви', family_id=family.id),
+            ]
+            
+            for cat in default_categories:
+                db.session.add(cat)
+            
+        elif role == 'member':
+            # Поиск семьи по коду приглашения
+            if not invite_code:
+                flash('Для регистрации как участник нужен код приглашения', 'danger')
+                return redirect(url_for('auth.register'))
+            
+            family = Family.query.filter_by(invite_code=invite_code).first()
+            if not family:
+                flash('Неверный код приглашения', 'danger')
+                return redirect(url_for('auth.register'))
+            
+            user = User(username=username, email=f"{username}@example.com", role='member', family_id=family.id)
+            user.set_password(password)
+            db.session.add(user)
+            flash(f'Вы присоединились к семье "{family.name}"!', 'success')
+        
+        db.session.commit()
+        login_user(user)
+        return redirect(url_for('auth.login'))
+    
+    return render_template('auth/register.html')
+
+@auth_bp.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('Вы вышли из системы', 'info')
+    return redirect(url_for('auth.login'))

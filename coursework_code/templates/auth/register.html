@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header text-center bg-success text-white">
+                <h4>Регистрация в Семейном бюджете</h4>
+            </div>
+            <div class="card-body">
+                <!-- <form>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label>Логин</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Роль</label>
+                            <select class="form-select">
+                                <option value="owner">Владелец семьи</option>
+                                <option value="member">Участник</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label>Пароль</label>
+                        <input type="password" class="form-control" required>
+                    </div>
+                    <div class="mb-3" id="invite-code">
+                        <label>Код приглашения (для участника)</label>
+                        <input type="text" class="form-control" placeholder="Например: FAM-XYZ123">
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Зарегистрироваться</button>
+                </form> -->
+                <form method="POST">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label>Логин</label>
+                            <input type="text" name="username" class="form-control" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Роль</label>
+                            <select name="role" class="form-select" id="roleSelect">
+                                <option value="owner">Владелец семьи</option>
+                                <option value="member">Участник</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label>Пароль</label>
+                        <input type="password" name="password" class="form-control" required>
+                    </div>
+                    <div class="mb-3" id="inviteCodeBlock">
+                        <label>Код приглашения (для участника)</label>
+                        <input type="text" name="invite_code" class="form-control" placeholder="Например: FAM-XYZ123">
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Зарегистрироваться</button>
+                </form>
+                
+                <script>
+                    // Показываем/скрываем поле с кодом приглашения в зависимости от выбранной роли
+                    const roleSelect = document.getElementById('roleSelect');
+                    const inviteCodeBlock = document.getElementById('inviteCodeBlock');
+                    
+                    roleSelect.addEventListener('change', function() {
+                        if (this.value === 'member') {
+                            inviteCodeBlock.style.display = 'block';
+                        } else {
+                            inviteCodeBlock.style.display = 'none';
+                        }
+                    });
+                    
+                    // Инициализация при загрузке
+                    if (roleSelect.value === 'member') {
+                        inviteCodeBlock.style.display = 'block';
+                    } else {
+                        inviteCodeBlock.style.display = 'none';
+                    }
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Профиль{% endblock %}
+
+{% block nav %}
+<li class="nav-item"><a class="nav-link" href="/dashboard/owner">Главная</a></li>
+{% endblock %}
+
+{% block content %}
+<h2>Профиль пользователя</h2>
+
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Личные данные</h5>
+                <p><strong>Логин:</strong> momina_aa</p>
+                <p><strong>Роль:</strong> Владелец семьи</p>
+                <p><strong>Семья:</strong> Момина</p>
+                <button class="btn btn-outline-primary">Изменить данные</button>
+            </div>
+            <div class="col-md-6">
+                <h5>Участники семьи</h5>
+                <ul class="list-group">
+                    <li class="list-group-item">Антонина (Владелец)</li>
+                    <li class="list-group-item">Иван (Сын)</li>
+                    <li class="list-group-item">Мария (Дочь)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

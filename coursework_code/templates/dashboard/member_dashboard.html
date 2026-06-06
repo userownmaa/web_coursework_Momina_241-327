@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Дашборд — Участник{% endblock %}
+
+{% block nav %}
+<li class="nav-item"><a class="nav-link active" href="/dashboard/member">Главная</a></li>
+<li class="nav-item"><a class="nav-link" href="/transactions">Мои транзакции</a></li>
+{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Личный дашборд — Иван</h2>
+
+<!-- Выбор периода -->
+<div class="mb-4">
+    <div class="btn-group" role="group">
+        <button class="btn btn-outline-primary active">День</button>
+        <button class="btn btn-outline-primary">Неделя</button>
+        <button class="btn btn-outline-primary">Месяц</button>
+        <!-- <button class="btn btn-outline-primary">Год</button> -->
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card text-center mb-3">
+            <div class="card-body">
+                <h5 class="text-muted">Расходы</h5>
+                <h3 class="expense">12 450 ₽</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center mb-3">
+            <div class="card-body">
+                <h5 class="text-muted">Доходы</h5>
+                <h3 class="income">15 000 ₽</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center mb-3">
+            <div class="card-body">
+                <h5 class="text-muted">Карманные деньги</h5>
+                <h3>8 000 ₽</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center mb-3">
+            <div class="card-body">
+                <h5 class="text-muted">Остаток</h5>
+                <h3 class="income">10 550 ₽</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">Мои расходы по категориям</div>
+            <div class="card-body">
+                <canvas id="memberCategoryChart" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Админ-панель{% endblock %}
+
+{% block nav %}
+<li class="nav-item"><a class="nav-link active" href="/dashboard/admin">Админ-панель</a></li>
+{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Панель администратора</h2>
+
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5>Управление пользователями</h5>
+                <a href="#" class="btn btn-primary mt-3">Перейти</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5>Резервное копирование БД</h5>
+                <button class="btn btn-success mt-3">Создать копию</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5>Просмотр всех транзакций</h5>
+                <a href="/transactions" class="btn btn-primary mt-3">Открыть</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

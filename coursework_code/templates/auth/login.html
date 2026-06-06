@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Вход — Семейный бюджет{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-header text-center bg-primary text-white">
+                <h4>Вход в систему</h4>
+            </div>
+            <div class="card-body">
+                <!-- <form>
+                    <div class="mb-3">
+                        <label class="form-label">Логин</label>
+                        <input type="text" class="form-control" value="momina" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Пароль</label>
+                        <input type="password" class="form-control" value="123456" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Войти</button>
+                </form> -->
+                <form method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">Логин</label>
+                        <input type="text" name="username" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Пароль</label>
+                        <input type="password" name="password" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Войти</button>
+                </form>
+                <!-- <div class="text-center mt-3">
+                    <a href="/register">Нет аккаунта? Зарегистрироваться</a>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

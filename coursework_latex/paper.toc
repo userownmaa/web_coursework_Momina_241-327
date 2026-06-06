@@ -21,9 +21,22 @@
 \contentsline {subsection}{\numberline {2.4}Разработка макетов страниц}{25}{subsection.2.4}%
 \contentsline {paragraph}{Принципы разработки макетов}{25}{subsection.2.4}%
 \contentsline {section}{\MakeUppercase {Глава 3. Разработка веб-приложения}}{32}{figure.caption.25}%
-\contentsline {subsection}{\numberline {3.1}Разработка базовой структуры приложения и вёрстка}{32}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}Реализация модуля авторизации}{32}{subsection.3.2}%
-\contentsline {section}{\MakeUppercase {Заключение}}{33}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.1}Вёрстка HTML страниц}{32}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Реализация модуля авторизации}{33}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Реализация CRUD-интерфейса}{34}{subsection.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.1}Управление транзакциями}{34}{subsubsection.3.3.1}%
+\contentsline {subsubsection}{\numberline {3.3.2}Управление категориями}{35}{subsubsection.3.3.2}%
+\contentsline {subsubsection}{\numberline {3.3.3}Управление участниками}{35}{subsubsection.3.3.3}%
+\contentsline {subsection}{\numberline {3.4}Реализация обработки и анализа данных}{35}{subsection.3.4}%
+\contentsline {subsubsection}{\numberline {3.4.1}Агрегация данных для дашбордов}{36}{subsubsection.3.4.1}%
+\contentsline {subsubsection}{\numberline {3.4.2}Формирование отчётов}{36}{subsubsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.5}Реализация работы с файлами}{36}{subsection.3.5}%
+\contentsline {subsubsection}{\numberline {3.5.1}Загрузка и хранение чеков}{37}{subsubsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.6}Реализация системы визуализации}{37}{subsection.3.6}%
+\contentsline {subsubsection}{\numberline {3.6.1}Круговая диаграмма расходов по категориям}{37}{subsubsection.3.6.1}%
+\contentsline {subsubsection}{\numberline {3.6.2}Линейный график динамики баланса}{37}{subsubsection.3.6.2}%
+\contentsline {subsubsection}{\numberline {3.6.3}Сводная таблица по участникам}{38}{subsubsection.3.6.3}%
+\contentsline {section}{\MakeUppercase {Заключение}}{39}{subsubsection.3.6.3}%
 \babel@toc {russian}{}\relax 
 \babel@toc {russian}{}\relax 
 \babel@toc {russian}{}\relax 
