@@ -13,7 +13,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="/">💰 MoneyManage</a>
+            <a class="navbar-brand fw-bold" href="{{ url_for('main.index') }}">💰 MoneyManage</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -21,17 +21,39 @@
                 <ul class="navbar-nav me-auto">
                     {% block nav %}{% endblock %}
                 </ul>
+                
+                <!-- Блок для авторизованных пользователей -->
+                {% if current_user.is_authenticated %}
                 <div class="d-flex align-items-center">
-                    <span class="text-white me-3">Антонина Момина</span>
-                    <a href="/profile" class="btn btn-light btn-sm me-2">Профиль</a>
+                    <span class="text-white me-3">{{ current_user.username }}</span>
+                    <a href="{{ url_for('main.profile') }}" class="btn btn-light btn-sm me-2">Профиль</a>
                     <a href="{{ url_for('auth.logout') }}" class="btn btn-outline-light btn-sm">Выйти</a>
                 </div>
+                {% else %}
+                <!-- Блок для неавторизованных пользователей -->
+                <div class="d-flex align-items-center">
+                    <a href="{{ url_for('auth.login') }}" class="btn btn-outline-light btn-sm">Вход</a>
+                    <a href="{{ url_for('auth.register') }}" class="btn btn-light btn-sm ms-2">Регистрация</a>
+                </div>
+                {% endif %}
             </div>
         </div>
     </nav>
 
     <main class="flex-shrink-0">
         <div class="container mt-4">
+            <!-- Блок для flash-сообщений -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category if category != 'message' else 'info' }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
             {% block content %}{% endblock %}
         </div>
     </main>

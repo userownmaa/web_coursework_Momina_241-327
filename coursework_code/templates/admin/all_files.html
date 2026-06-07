@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block title %}Все файлы — Админ{% endblock %}
+
+{% block nav %}
+<li class="nav-item"><a class="nav-link active" href="{{ url_for('admin.admin_dashboard') }}">Админ-панель</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ url_for('admin.view_all_transactions') }}">Все транзакции</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ url_for('admin.view_all_files') }}">Все файлы</a></li>
+{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Все загруженные файлы (чеки)</h2>
+
+<div class="table-responsive">
+    <table class="table table-hover align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>Имя файла</th>
+                <th>Размер</th>
+                <th>Дата загрузки</th>
+                <th>Транзакция</th>
+                <th>Пользователь</th>
+                <th class="text-center">Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for receipt in receipts %}
+            <tr>
+                <td>{{ receipt.id }}</td>
+                <td>{{ receipt.filename }}</td>
+                <td>
+                    {% set size = [0] %}
+                    {% if receipt.filepath and receipt.filepath|length > 0 %}
+                        {% if receipt.filepath|length > 0 %}
+                            {{ (receipt.filepath|length) }} bytes
+                        {% else %}
+                            —
+                        {% endif %}
+                    {% else %}
+                        —
+                    {% endif %}
+                </td>
+                <td>{{ receipt.uploaded_at.strftime('%d.%m.%Y %H:%M') if receipt.uploaded_at else '—' }}</td>
+                <td>
+                    <a href="{{ url_for('admin.view_all_transactions') }}?transaction_id={{ receipt.transaction.id }}">
+                        Транзакция #{{ receipt.transaction.id }}
+                    </a>
+                </td>
+                <td>{{ receipt.transaction.user.username }}</td>
+                <td class="text-center">
+                    <button class="btn btn-sm btn-outline-info me-1" onclick="viewFile({{ receipt.id }})">
+                        <i class="bi bi-eye"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger" onclick="deleteFile({{ receipt.id }})">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if not receipts %}
+<p class="text-muted text-center mt-3">Нет загруженных файлов</p>
+{% endif %}
+
+<!-- Модальное окно просмотра файла -->
+<div class="modal fade" id="viewFileModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Просмотр файла</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="fileImage" src="" alt="Файл" style="max-width: 100%; max-height: 70vh;">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function viewFile(id) {
+    fetch(`/admin/api/get_receipt/${id}`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('fileImage').src = data.url;
+            new bootstrap.Modal(document.getElementById('viewFileModal')).show();
+        });
+}
+
+function deleteFile(id) {
+    if(confirm('Вы уверены, что хотите удалить этот файл?')) {
+        fetch(`/admin/api/delete_receipt/${id}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success) {
+                location.reload();
+            } else {
+                alert('Ошибка: ' + data.message);
+            }
+        });
+    }
+}
+</script>
+{% endblock %}

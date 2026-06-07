@@ -4,6 +4,7 @@ from project import db
 from project.models import User, Family, Category
 import secrets
 import string
+from flask import current_app
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -25,7 +26,8 @@ def login():
         
         if user and user.check_password(password):
             login_user(user)
-            flash(f'Добро пожаловать, {user.username}!', 'success')
+            current_app.logger.info(f'User {user.id} ({user.username}) logged in successfully')
+            flash(f'Вход успешен, {user.username}!', 'success')
             
             # Перенаправление на соответствующую страницу в зависимости от роли
             if user.role == 'admin':
@@ -39,6 +41,7 @@ def login():
     
     return render_template('auth/login.html')
 
+
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
@@ -46,6 +49,7 @@ def register():
     
     if request.method == 'POST':
         username = request.form.get('username')
+        email = request.form.get('email')  # Добавлено поле email
         password = request.form.get('password')
         role = request.form.get('role')
         invite_code = request.form.get('invite_code')
@@ -56,6 +60,12 @@ def register():
             flash('Пользователь с таким именем уже существует', 'danger')
             return redirect(url_for('auth.register'))
         
+        # Проверка email
+        existing_email = User.query.filter_by(email=email).first()
+        if existing_email:
+            flash('Пользователь с таким email уже существует', 'danger')
+            return redirect(url_for('auth.register'))
+        
         if role == 'owner':
             # Создаем новую семью
             new_invite_code = generate_invite_code()
@@ -63,12 +73,12 @@ def register():
             db.session.add(family)
             db.session.flush()
             
-            user = User(username=username, email=f"{username}@example.com", role='owner', family_id=family.id)
+            user = User(username=username, email=email, role='owner', family_id=family.id)
             user.set_password(password)
             db.session.add(user)
+            db.session.flush()
             
-            flash(f'Семья "{family.name}" создана! Ваш код приглашения: {new_invite_code}', 'success')
-
+            # Создаем стандартные категории
             default_categories = [
                 Category(name='Продукты', type='expense', color='#dc3545', description='Покупка продуктов питания', family_id=family.id),
                 Category(name='Транспорт', type='expense', color='#ffc107', description='Проезд, такси, бензин', family_id=family.id),
@@ -83,6 +93,9 @@ def register():
             for cat in default_categories:
                 db.session.add(cat)
             
+            db.session.commit()
+            flash(f'Семья "{family.name}" создана! Ваш код приглашения: {new_invite_code}', 'success')
+            
         elif role == 'member':
             # Поиск семьи по коду приглашения
             if not invite_code:
@@ -94,14 +107,20 @@ def register():
                 flash('Неверный код приглашения', 'danger')
                 return redirect(url_for('auth.register'))
             
-            user = User(username=username, email=f"{username}@example.com", role='member', family_id=family.id)
+            user = User(username=username, email=email, role='member', family_id=family.id)
             user.set_password(password)
             db.session.add(user)
+            db.session.commit()
             flash(f'Вы присоединились к семье "{family.name}"!', 'success')
         
-        db.session.commit()
         login_user(user)
-        return redirect(url_for('auth.login'))
+        current_app.logger.info(f'New user registered: {user.id} ({user.username}) with role {user.role}')
+        flash('Регистрация успешно завершена!', 'success')
+        
+        if user.role == 'owner':
+            return redirect(url_for('main.owner_dashboard'))
+        else:
+            return redirect(url_for('main.member_dashboard'))
     
     return render_template('auth/register.html')
 
@@ -109,5 +128,6 @@ def register():
 @login_required
 def logout():
     logout_user()
+    current_app.logger.info(f'User logged out')
     flash('Вы вышли из системы', 'info')
     return redirect(url_for('auth.login'))

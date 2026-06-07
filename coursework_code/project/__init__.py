@@ -59,9 +59,8 @@ def create_app(config_class=Config):
     db.init_app(app)
     login_manager.init_app(app)
     
-    # Импортируем модели здесь, чтобы избежать циклических импортов
     from project.models import User, Family, Category, Transaction, Receipt, CategoryLimit, UserBudget, DashboardStats
-    
+
     from project.auth import auth_bp
     from project.admin import admin_bp
     from project.main import main_bp

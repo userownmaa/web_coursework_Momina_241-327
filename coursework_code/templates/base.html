@@ -19,10 +19,24 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
-                    {% block nav %}{% endblock %}
+                    {% if current_user.is_authenticated %}
+                        {% if current_user.role == 'owner' %}
+                            <!-- Навигация для владельца -->
+                            <li class="nav-item"><a class="nav-link {% if request.endpoint == 'main.owner_dashboard' %}active{% endif %}" href="{{ url_for('main.owner_dashboard') }}">Главная</a></li>
+                            <li class="nav-item"><a class="nav-link {% if request.endpoint == 'main.transactions' %}active{% endif %}" href="{{ url_for('main.transactions') }}">Транзакции</a></li>
+                            <li class="nav-item"><a class="nav-link {% if request.endpoint == 'main.categories' %}active{% endif %}" href="{{ url_for('main.categories') }}">Категории</a></li>
+                            <li class="nav-item"><a class="nav-link {% if request.endpoint == 'main.members' %}active{% endif %}" href="{{ url_for('main.members') }}">Участники</a></li>
+                        {% elif current_user.role == 'member' %}
+                            <!-- Навигация для участника -->
+                            <li class="nav-item"><a class="nav-link {% if request.endpoint == 'main.member_dashboard' %}active{% endif %}" href="{{ url_for('main.member_dashboard') }}">Главная</a></li>
+                            <li class="nav-item"><a class="nav-link {% if request.endpoint == 'main.transactions' %}active{% endif %}" href="{{ url_for('main.transactions') }}">Мои транзакции</a></li>
+                        {% elif current_user.role == 'admin' %}
+                            <!-- Навигация для админа -->
+                            <li class="nav-item"><a class="nav-link {% if request.endpoint == 'admin.admin_dashboard' %}active{% endif %}" href="{{ url_for('admin.admin_dashboard') }}">Админ-панель</a></li>
+                        {% endif %}
+                    {% endif %}
                 </ul>
                 
-                <!-- Блок для авторизованных пользователей -->
                 {% if current_user.is_authenticated %}
                 <div class="d-flex align-items-center">
                     <span class="text-white me-3">{{ current_user.username }}</span>
@@ -30,7 +44,6 @@
                     <a href="{{ url_for('auth.logout') }}" class="btn btn-outline-light btn-sm">Выйти</a>
                 </div>
                 {% else %}
-                <!-- Блок для неавторизованных пользователей -->
                 <div class="d-flex align-items-center">
                     <a href="{{ url_for('auth.login') }}" class="btn btn-outline-light btn-sm">Вход</a>
                     <a href="{{ url_for('auth.register') }}" class="btn btn-light btn-sm ms-2">Регистрация</a>
@@ -42,7 +55,6 @@
 
     <main class="flex-shrink-0">
         <div class="container mt-4">
-            <!-- Блок для flash-сообщений -->
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     {% for category, message in messages %}
@@ -58,7 +70,6 @@
         </div>
     </main>
 
-    <!-- Footer -->
     <footer class="mt-auto bg-primary text-white py-4">
         <div class="container text-center">
             <small>© 2026 Курсовой проект «Разработка веб-приложения для ведения семейного бюджета» — MoneyManage</small>

@@ -2,36 +2,340 @@
 {% block title %}Админ-панель{% endblock %}
 
 {% block nav %}
-<li class="nav-item"><a class="nav-link active" href="/dashboard/admin">Админ-панель</a></li>
+<li class="nav-item"><a class="nav-link active" href="{{ url_for('admin.admin_dashboard') }}">Админ-панель</a></li>
 {% endblock %}
 
 {% block content %}
 <h2 class="mb-4">Панель администратора</h2>
 
-<div class="row g-4">
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body text-center">
-                <h5>Управление пользователями</h5>
-                <a href="#" class="btn btn-primary mt-3">Перейти</a>
-            </div>
-        </div>
+<!-- Управление приложением -->
+<div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Управление приложением</h5>
     </div>
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body text-center">
-                <h5>Резервное копирование БД</h5>
-                <button class="btn btn-success mt-3">Создать копию</button>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <div class="d-grid">
+                    <button class="btn btn-outline-primary" onclick="viewLogs()">
+                        <i class="bi bi-file-text"></i> Просмотр логов
+                    </button>
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body text-center">
-                <h5>Просмотр всех транзакций</h5>
-                <a href="/transactions" class="btn btn-primary mt-3">Открыть</a>
+            <div class="col-md-4 mb-3">
+                <div class="d-grid">
+                    <button class="btn btn-outline-success" onclick="backupDatabase()">
+                        <i class="bi bi-database"></i> Резервное копирование БД
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="d-grid">
+                    <button class="btn btn-outline-warning" onclick="restoreDatabase()">
+                        <i class="bi bi-arrow-repeat"></i> Восстановление БД из резервной копии
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Управление пользователями -->
+<div class="card mb-4">
+    <div class="card-header bg-info text-white">
+        <h5 class="mb-0">Управление пользователями</h5>
+    </div>
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="searchUser" placeholder="Поиск пользователя...">
+                    <button class="btn btn-primary" onclick="searchUsers()">
+                        <i class="bi bi-search"></i> Найти
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-6 text-end">
+                <button class="btn btn-success" onclick="showAddUserModal()">
+                    <i class="bi bi-person-plus"></i> Добавить пользователя
+                </button>
+            </div>
+        </div>
+        
+        <div class="table-responsive">
+            <table class="table table-hover" id="usersTable">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Логин</th>
+                        <th>Email</th>
+                        <th>Роль</th>
+                        <th>Семья</th>
+                        <th>Статус</th>
+                        <th class="text-center">Действия</th>
+                    </tr>
+                </thead>
+                <tbody id="usersTableBody">
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            {% if user.role == 'admin' %}
+                                <span class="badge bg-danger">Администратор</span>
+                            {% elif user.role == 'owner' %}
+                                <span class="badge bg-success">Владелец</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Участник</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ user.family.name if user.family else '—' }}</td>
+                        <td>
+                            {% if user.is_active %}
+                                <span class="badge bg-success">Активен</span>
+                            {% else %}
+                                <span class="badge bg-danger">Заблокирован</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-outline-info me-1" onclick="viewUserDetails({{ user.id }})" title="Просмотр">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-warning me-1" onclick="resetUserPassword({{ user.id }})" title="Сброс пароля">
+                                <i class="bi bi-key"></i>
+                            </button>
+                            {% if user.role != 'admin' %}
+                            <button class="btn btn-sm btn-outline-danger" onclick="deleteUser({{ user.id }})" title="Удалить">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Управление файлами и транзакциями -->
+<div class="card mb-4">
+    <div class="card-header bg-secondary text-white">
+        <h5 class="mb-0">Управление файлами и транзакциями</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="d-grid">
+                    <a href="{{ url_for('admin.view_all_transactions') }}" class="btn btn-outline-primary">
+                        <i class="bi bi-list-ul"></i> Просмотр всех транзакций
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="d-grid">
+                    <a href="{{ url_for('admin.view_all_files') }}" class="btn btn-outline-info">
+                        <i class="bi bi-files"></i> Просмотр всех загруженных файлов
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно добавления пользователя -->
+<div class="modal fade" id="addUserModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Добавить пользователя</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="{{ url_for('admin.add_user') }}">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Логин</label>
+                        <input type="text" name="username" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Пароль</label>
+                        <input type="password" name="password" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Роль</label>
+                        <select name="role" class="form-select" required>
+                            <option value="member">Участник</option>
+                            <option value="owner">Владелец</option>
+                            <option value="admin">Администратор</option>
+                        </select>
+                    </div>
+                    <div class="mb-3" id="familySelectDiv" style="display: none;">
+                        <label class="form-label">Семья</label>
+                        <select name="family_id" class="form-select">
+                            <option value="">Нет семьи</option>
+                            {% for family in families %}
+                            <option value="{{ family.id }}">{{ family.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-success">Добавить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+// Поиск пользователей
+function searchUsers() {
+    let searchTerm = document.getElementById('searchUser').value.toLowerCase();
+    let rows = document.querySelectorAll('#usersTableBody tr');
+    
+    rows.forEach(row => {
+        let text = row.textContent.toLowerCase();
+        if (text.includes(searchTerm)) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
+
+// Просмотр пользователя
+function viewUserDetails(userId) {
+    fetch(`/admin/api/get_user/${userId}`)
+        .then(response => response.json())
+        .then(data => {
+            alert(`Пользователь:\n\nЛогин: ${data.username}\nEmail: ${data.email}\nРоль: ${data.role}\nСемья: ${data.family_name || '—'}`);
+        });
+}
+
+// Сброс пароля
+function resetUserPassword(userId) {
+    let newPassword = prompt('Введите новый пароль для пользователя:');
+    if (newPassword && newPassword.length >= 4) {
+        fetch(`/admin/api/reset_password/${userId}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password: newPassword })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Пароль успешно изменен');
+            } else {
+                alert('Ошибка: ' + data.message);
+            }
+        });
+    } else if (newPassword) {
+        alert('Пароль должен содержать минимум 4 символа');
+    }
+}
+
+// Удаление пользователя
+function deleteUser(userId) {
+    if (confirm('Вы уверены, что хотите удалить этого пользователя? Все его транзакции также будут удалены!')) {
+        fetch(`/admin/api/delete_user/${userId}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Ошибка: ' + data.message);
+            }
+        });
+    }
+}
+
+// Просмотр логов
+function viewLogs() {
+    window.open('/admin/logs', '_blank');
+}
+
+// Резервное копирование
+function backupDatabase() {
+    fetch('/admin/api/backup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Резервная копия создана: ' + data.filename);
+        } else {
+            alert('Ошибка: ' + data.message);
+        }
+    });
+}
+
+// Восстановление из резервной копии
+function restoreDatabase() {
+    let backupFile = prompt('Введите имя файла резервной копии:');
+    if (backupFile) {
+        fetch('/admin/api/restore', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ filename: backupFile })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('База данных восстановлена');
+                location.reload();
+            } else {
+                alert('Ошибка: ' + data.message);
+            }
+        });
+    }
+}
+
+// Просмотр всех файлов
+function viewAllFiles() {
+    window.open('/admin/files', '_blank');
+}
+
+// Очистка неиспользуемых файлов
+function cleanupFiles() {
+    if (confirm('Удалить все файлы, не привязанные к транзакциям?')) {
+        fetch('/admin/api/cleanup_files', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(`Удалено ${data.deleted} файлов`);
+            } else {
+                alert('Ошибка: ' + data.message);
+            }
+        });
+    }
+}
+
+function showAddUserModal() {
+    new bootstrap.Modal(document.getElementById('addUserModal')).show();
+}
+
+// Показывать/скрывать выбор семьи в зависимости от роли
+document.querySelector('select[name="role"]')?.addEventListener('change', function() {
+    const familyDiv = document.getElementById('familySelectDiv');
+    if (this.value === 'owner') {
+        familyDiv.style.display = 'none';
+        document.querySelector('select[name="family_id"]').value = '';
+    } else {
+        familyDiv.style.display = 'block';
+    }
+});
+</script>
 {% endblock %}

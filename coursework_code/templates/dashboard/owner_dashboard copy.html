@@ -20,34 +20,70 @@
     </div>
 </div>
 
-<!-- Карточки с показателями -->
+<!-- Карточки с показателями в одну строку -->
 <div class="row mb-4">
-    <div class="col-md-4">
+    <div class="col-md-2-4">
         <div class="card text-center bg-danger text-white">
             <div class="card-body">
-                <h5 class="card-title">Расходы</h5>
-                <h3 class="mb-0">{{ "{:,.0f}".format(total_expense) }} ₽</h3>
+                <h6 class="card-title">Расходы за период</h6>
+                <h4 class="mb-0">{{ "{:,.0f}".format(total_expense) }} ₽</h4>
             </div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-2-4">
         <div class="card text-center bg-success text-white">
             <div class="card-body">
-                <h5 class="card-title">Доходы</h5>
-                <h3 class="mb-0">{{ "{:,.0f}".format(total_income) }} ₽</h3>
+                <h6 class="card-title">Доходы за период</h6>
+                <h4 class="mb-0">{{ "{:,.0f}".format(total_income) }} ₽</h4>
             </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="card text-center {% if balance >= 0 %}bg-primary{% else %}bg-warning{% endif %} text-white">
+    <div class="col-md-2-4">
+        <div class="card text-center bg-info text-white">
             <div class="card-body">
-                <h5 class="card-title">Остаток</h5>
-                <h3 class="mb-0">{{ "{:,.0f}".format(balance) }} ₽</h3>
-                <small class="text-white-50">Бюджет - расходы</small>
+                <h6 class="card-title">Баланс за период</h6>
+                <h4 class="mb-0">{{ "{:,.0f}".format(total_income - total_expense) }} ₽</h4>
+                <!-- <small>Доходы - расходы</small> -->
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2-4">
+        <div class="card text-center bg-warning text-white">
+            <div class="card-body">
+                <h6 class="card-title">Бюджет на период</h6>
+                <h4 class="mb-0">{{ "{:,.0f}".format(user_budget) }} ₽</h4>
+                <!-- <small>Установленный лимит</small> -->
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2-4">
+        <div class="card text-center {% if balance >= 0 %}bg-primary{% else %}bg-danger{% endif %} text-white">
+            <div class="card-body">
+                <h6 class="card-title">Остаток бюджета</h6>
+                <h4 class="mb-0">{{ "{:,.0f}".format(balance) }} ₽</h4>
+                <!-- <small>Бюджет - расходы</small> -->
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    /* Кастомные колонки для 5 карточек в ряд */
+    .col-md-2-4 {
+        flex: 0 0 20%;
+        max-width: 20%;
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+    
+    @media (max-width: 768px) {
+        .col-md-2-4 {
+            flex: 0 0 100%;
+            max-width: 100%;
+            margin-bottom: 10px;
+        }
+    }
+</style>
 
 <div class="row">
     <!-- Круговая диаграмма расходов по категориям -->
@@ -73,8 +109,8 @@
             </div>
             <div class="card-body">
                 <canvas id="balanceChart" height="250"></canvas>
-                {% if not budget_labels %}
-                <p class="text-muted text-center mt-3">Нет данных за выбранный период</p>
+                {% if not chart_labels %}
+                <p class="text-muted text-center mt-3">Нет данных для отображения динамики</p>
                 {% endif %}
             </div>
         </div>
@@ -87,6 +123,9 @@
         <div class="card">
             <div class="card-header">
                 <h5 class="mb-0">Сводка по участникам семьи</h5>
+                <a href="{{ url_for('main.export_report', period=period) }}" class="btn btn-sm btn-primary">
+                    <i class="bi bi-download"></i> Скачать отчет CSV
+                </a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -144,8 +183,8 @@
 // Данные из Flask
 const expenseCategories = {{ expense_categories | tojson }};
 const expenseAmounts = {{ expense_amounts | tojson }};
-const budgetLabels = {{ budget_labels | tojson }};
-const budgetBalanceData = {{ budget_balance_data | tojson }};
+const chartLabels = {{ chart_labels | tojson }};
+const chartBalanceData = {{ chart_balance_data | tojson }};
 
 // 1. Круговая диаграмма расходов
 if (expenseCategories.length > 0) {
@@ -187,23 +226,112 @@ if (expenseCategories.length > 0) {
     });
 }
 
-// 2. Линейный график динамики баланса
-if (budgetLabels.length > 0) {
+// 2. Столбчатая диаграмма динамики баланса
+// if (chartLabels.length > 0) {
+//     const ctx2 = document.getElementById('balanceChart').getContext('2d');
+//     new Chart(ctx2, {
+//         type: 'bar',
+//         data: {
+//             labels: chartLabels,
+//             datasets: [{
+//                 label: 'Баланс на конец дня',
+//                 data: chartBalanceData,
+//                 backgroundColor: chartBalanceData.map(value => 
+//                     value >= 0 ? 'rgba(40, 167, 69, 0.7)' : 'rgba(220, 53, 69, 0.7)'
+//                 ),
+//                 borderColor: chartBalanceData.map(value => 
+//                     value >= 0 ? '#28a745' : '#dc3545'
+//                 ),
+//                 borderWidth: 2,
+//                 borderRadius: 4
+//             }]
+//         },
+//         options: {
+//             responsive: true,
+//             maintainAspectRatio: true,
+//             plugins: {
+//                 tooltip: {
+//                     callbacks: {
+//                         label: function(context) {
+//                             let value = context.raw || 0;
+//                             return `Баланс: ${value.toFixed(0)} ₽`;
+//                         }
+//                     }
+//                 },
+//                 legend: {
+//                     display: false
+//                 }
+//             },
+//             scales: {
+//                 y: {
+//                     title: {
+//                         display: true,
+//                         text: 'Баланс (₽)'
+//                     },
+//                     ticks: {
+//                         callback: function(value) {
+//                             return value.toFixed(0) + ' ₽';
+//                         }
+//                     },
+//                     beginAtZero: false
+//                 },
+//                 x: {
+//                     title: {
+//                         display: true,
+//                         text: '{% if period == "day" %}День{% else %}Дата{% endif %}'
+//                     }
+//                 }
+//             }
+//         }
+//     });
+// }
+
+// 2. Столбчатая диаграмма динамики баланса
+if (chartLabels.length > 0) {
     const ctx2 = document.getElementById('balanceChart').getContext('2d');
+    
+    // Определяем текущую дату
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    // Создаем массив цветов в зависимости от того, будущий ли день
+    const backgroundColors = [];
+    const borderColors = [];
+    
+    for (let i = 0; i < chartLabels.length; i++) {
+        // Парсим дату из метки (предполагаем формат DD.MM)
+        const labelParts = chartLabels[i].split('.');
+        if (labelParts.length === 2) {
+            const labelDate = new Date(today.getFullYear(), parseInt(labelParts[1]) - 1, parseInt(labelParts[0]));
+            labelDate.setHours(0, 0, 0, 0);
+            
+            if (labelDate > today) {
+                // Будущий день - серый
+                backgroundColors.push('rgba(108, 117, 125, 0.5)');
+                borderColors.push('#6c757d');
+            } else {
+                // Прошедший или сегодня - зеленый/красный в зависимости от значения
+                const value = chartBalanceData[i];
+                backgroundColors.push(value >= 0 ? 'rgba(40, 167, 69, 0.7)' : 'rgba(220, 53, 69, 0.7)');
+                borderColors.push(value >= 0 ? '#28a745' : '#dc3545');
+            }
+        } else {
+            backgroundColors.push('rgba(108, 117, 125, 0.5)');
+            borderColors.push('#6c757d');
+        }
+    }
+    
     new Chart(ctx2, {
-        type: 'line',
+        type: 'bar',
         data: {
-            labels: budgetLabels,
+            labels: chartLabels,
             datasets: [{
-                label: 'Баланс (накопленный)',
-                data: budgetBalanceData,
-                borderColor: '#007bff',
-                backgroundColor: 'rgba(0, 123, 255, 0.1)',
-                borderWidth: 3,
-                tension: 0.4,
-                fill: true,
-                pointRadius: 4,
-                pointHoverRadius: 6
+                label: 'Баланс на конец дня',
+                data: chartBalanceData,
+                backgroundColor: backgroundColors,
+                borderColor: borderColors,
+                borderWidth: 2,
+                borderRadius: 4
             }]
         },
         options: {
@@ -217,6 +345,9 @@ if (budgetLabels.length > 0) {
                             return `Баланс: ${value.toFixed(0)} ₽`;
                         }
                     }
+                },
+                legend: {
+                    display: false
                 }
             },
             scales: {
@@ -229,12 +360,13 @@ if (budgetLabels.length > 0) {
                         callback: function(value) {
                             return value.toFixed(0) + ' ₽';
                         }
-                    }
+                    },
+                    beginAtZero: false
                 },
                 x: {
                     title: {
                         display: true,
-                        text: '{% if period == "day" %}Время{% else %}Дата{% endif %}'
+                        text: '{% if period == "day" %}День{% else %}Дата{% endif %}'
                     }
                 }
             }
@@ -242,8 +374,6 @@ if (budgetLabels.length > 0) {
     });
 }
 
-function viewMemberDetails(userId) {
-    alert('Страница с подробной информацией об участнике будет доступна позже.\n\nUser ID: ' + userId);
-}
 </script>
+
 {% endblock %}
