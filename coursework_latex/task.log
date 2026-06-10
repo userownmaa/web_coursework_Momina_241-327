@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.4.1)  14 MAY 2026 23:05
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.4.1)  11 JUN 2026 00:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1480,23 +1480,29 @@ LaTeX Font Info:    Font shape `T2A/Tempora-TLF/b/n' will be
 (Font)              scaled to size 14.4pt on input line 56.
 [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] (./task.aux) ) 
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+File: images/sig.jpg Graphic file (type jpg)
+<use images/sig.jpg>
+Package pdftex.def Info: images/sig.jpg  used on input line 149.
+(pdftex.def)             Requested size: 40.40475pt x 22.76228pt.
+ [2 <./images/sig.jpg>]
+(./task.aux) ) 
 Here is how much of TeX's memory you used:
- 6352 strings out of 479648
- 102876 string characters out of 5886116
+ 6361 strings out of 479648
+ 103009 string characters out of 5886116
  407832 words of memory out of 5000000
- 24215 multiletter control sequences out of 15000+600000
+ 24221 multiletter control sequences out of 15000+600000
  493231 words of font info for 44 fonts, out of 8000000 for 9000
  475 hyphenation exceptions out of 8191
- 56i,9n,69p,459b,271s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/sh
-are/texlive/texmf-dist/fonts/enc/dvips/tempora/t2a-tempora.enc}</usr/share/texl
-ive/texmf-dist/fonts/type1/public/tempora/Tempora-Bold.pfb></usr/share/texlive/
-texmf-dist/fonts/type1/public/tempora/Tempora-Regular.pfb>
-Output written on task.pdf (2 pages, 67415 bytes).
+ 56i,12n,69p,459b,390s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texlive/texmf-dist/fonts/enc/dvips/tempora/t2a-tempor
+a.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/tempora/Tempora-Bold.pf
+b></usr/share/texlive/texmf-dist/fonts/type1/public/tempora/Tempora-Regular.pfb
+>
+Output written on task.pdf (2 pages, 118650 bytes).
 PDF statistics:
- 22 PDF objects out of 1000 (max. 8388607)
+ 23 PDF objects out of 1000 (max. 8388607)
  13 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

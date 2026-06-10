@@ -11,7 +11,6 @@
 {% block content %}
 <h2 class="mb-4">Управление участниками семьи</h2>
 
-<!-- Блок с кодом приглашения -->
 <div class="card mb-4">
     <div class="card-header bg-info text-white">
         <h5 class="mb-0">Код приглашения для новых участников</h5>
@@ -88,13 +87,11 @@
                     <button class="btn btn-sm btn-outline-primary me-2" onclick="viewMemberDetails({{ member.id }})">
                         <i class="bi bi-info-circle"></i> Подробнее
                     </button>
-                    <!-- Кнопка "Установить бюджет" для всех, кроме админа (если не владелец) -->
                     {% if member.role != 'admin' %}
                     <button class="btn btn-sm btn-outline-success me-2" onclick="setMemberBudget({{ member.id }}, '{{ member.username }}')">
                         <i class="bi bi-wallet2"></i> Установить бюджет
                     </button>
                     {% endif %}
-                    <!-- Кнопка удаления только для участников (не владелец и не текущий пользователь) -->
                     {% if member.id != user.id and member.role != 'owner' %}
                     <button class="btn btn-sm btn-outline-danger" onclick="deleteMember({{ member.id }})">
                         <i class="bi bi-trash"></i> Удалить
@@ -107,7 +104,7 @@
     </table>
 </div>
 
-<!-- Модальное окно установки бюджета - меняем период на день/неделя/месяц -->
+<!-- Модальное окно установки бюджет -->
 <div class="modal fade" id="setMemberBudgetModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -157,7 +154,6 @@ function copyInviteCode() {
     alert("Код скопирован: " + copyText.value);
 }
 
-// Поиск участников
 document.getElementById('searchMember').addEventListener('keyup', function() {
     let searchTerm = this.value.toLowerCase();
     let table = document.getElementById('membersTable');

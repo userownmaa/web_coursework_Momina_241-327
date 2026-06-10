@@ -20,6 +20,23 @@ def generate_invite_code():
         if not Family.query.filter_by(invite_code=code).first():
             return code
 
+@main_bp.route('/generate_invite_code', methods=['POST'])
+@login_required
+def generate_invite_code_route():
+    """Генерация нового кода приглашения"""
+    if current_user.role != 'owner':
+        flash('Доступ запрещен', 'danger')
+        return redirect(url_for('main.index'))
+    
+    if current_user.family:
+        new_code = generate_invite_code()
+        current_user.family.invite_code = new_code
+        db.session.commit()
+        flash(f'Новый код приглашения: {new_code}', 'success')
+    
+    return redirect(url_for('main.members'))
+
+
 def update_dashboard_stats(user_id):
     """Обновление статистики для дашборда пользователя"""
     from project.models import DashboardStats
@@ -77,6 +94,16 @@ def update_dashboard_stats(user_id):
     db.session.commit()
     print(f"Статистика для пользователя {user_id} обновлена. Дней: {len(daily_balance)}")
 
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'pdf'}
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@main_bp.route('/uploads/<filename>')
+def uploaded_file(filename):
+    from flask import send_from_directory
+    return send_from_directory(current_app.config['UPLOAD_FOLDER'], filename)
+
 
 @main_bp.route('/')
 def index():
@@ -88,14 +115,6 @@ def index():
         else:
             return redirect(url_for('main.member_dashboard'))
     return redirect(url_for('auth.login'))
-
-@main_bp.route('/dashboard/admin')
-@login_required
-def admin_dashboard():
-    if current_user.role != 'admin':
-        return redirect(url_for('main.index'))
-    return render_template('dashboard/admin_dashboard.html')
-
 
 
 @main_bp.route('/dashboard/owner')
@@ -122,7 +141,7 @@ def owner_dashboard():
         start_date = now.replace(day=1)
         end_date = now
     
-    # 1. Получаем расходы семьи за период
+    # Получаем расходы семьи за период
     family_expense = 0
     if current_user.family:
         family_member_ids = [user.id for user in current_user.family.users]
@@ -134,7 +153,7 @@ def owner_dashboard():
         ).all()
         family_expense = sum(abs(float(t.amount)) for t in family_transactions)
     
-    # 2. Получаем доходы семьи за период
+    # Получаем доходы семьи за период
     family_income = 0
     if current_user.family:
         family_transactions_income = Transaction.query.filter(
@@ -145,7 +164,6 @@ def owner_dashboard():
         ).all()
         family_income = sum(float(t.amount) for t in family_transactions_income)
     
-    # 3. РАСЧЕТ СЕМЕЙНОГО БЮДЖЕТА
     # Сначала считаем сумму всех личных бюджетов участников (приводим к месяцу)
     total_monthly_budget = 0
     if current_user.family:
@@ -160,7 +178,7 @@ def owner_dashboard():
                     monthly_budget = budget_amount * 30
                 elif budget_period == 'week':
                     monthly_budget = budget_amount * 4
-                else:  # month
+                else: 
                     monthly_budget = budget_amount
                 
                 total_monthly_budget += monthly_budget
@@ -176,8 +194,7 @@ def owner_dashboard():
     # Остаток семейного бюджета
     family_balance = family_budget - family_expense
 
-    
-    # 4. Расходы по категориям за период (для круговой диаграммы)
+    # расходы по категориям за период (для круговой диаграммы)
     expense_by_category = {}
     if current_user.family:
         family_member_ids = [user.id for user in current_user.family.users]
@@ -196,7 +213,7 @@ def owner_dashboard():
     expense_categories = list(expense_by_category.keys())
     expense_amounts = list(expense_by_category.values())
     
-    # Получаем данные для столбчатой диаграммы из DashboardStats
+    # Получаем данные для столбчатой диаграммы
     chart_labels = []
     chart_balance_data = []
 
@@ -212,7 +229,7 @@ def owner_dashboard():
         start_date = now - timedelta(days=now.weekday())
         dates = [start_date + timedelta(days=i) for i in range(7)]
         date_format = '%d.%m'
-    else:  # month
+    else: 
         # Показываем все дни месяца
         start_date = now.replace(day=1)
         if now.month == 12:
@@ -226,13 +243,11 @@ def owner_dashboard():
         date_str = date.isoformat()
         chart_labels.append(date.strftime(date_format))
 
-        # Если дата в будущем - ставим 0
         if date > now:
             chart_balance_data.append(0)
         elif stats and stats.daily_balance and date_str in stats.daily_balance:
             chart_balance_data.append(stats.daily_balance[date_str])
         elif stats and stats.daily_balance:
-            # Находим последний известный баланс
             last_balance = 0
             for d in sorted(stats.daily_balance.keys()):
                 if d <= date_str:
@@ -268,10 +283,10 @@ def owner_dashboard():
     return render_template('dashboard/owner_dashboard.html',
                          user=current_user,
                          period=period,
-                         total_income=family_income,  # Доходы семьи
-                         total_expense=family_expense,  # Расходы семьи
-                         balance=family_balance,  # Остаток семейного бюджета
-                         user_budget=family_budget,  # Семейный бюджет на период
+                         total_income=family_income,  
+                         total_expense=family_expense,  
+                         balance=family_balance,  
+                         user_budget=family_budget, 
                          expense_categories=expense_categories,
                          expense_amounts=expense_amounts,
                          chart_labels=chart_labels,
@@ -291,7 +306,6 @@ def member_dashboard():
     
     period = request.args.get('period', 'month')
     
-    # Определяем даты для периода
     now = datetime.utcnow().date()
     
     if period == 'day':
@@ -304,7 +318,7 @@ def member_dashboard():
         start_date = now.replace(day=1)
         end_date = now
     
-    # 1. Получаем расходы и доходы участника за период
+    # Получаем расходы и доходы участника за период
     member_transactions = Transaction.query.filter_by(user_id=current_user.id).filter(
         Transaction.date >= start_date,
         Transaction.date <= end_date
@@ -313,7 +327,7 @@ def member_dashboard():
     total_income = sum(float(t.amount) for t in member_transactions if t.amount > 0)
     total_expense = sum(abs(float(t.amount)) for t in member_transactions if t.amount < 0)
     
-    # 2. Получаем бюджет участника
+    # Получаем бюджет участника
     user_budget = current_user.user_budgets[0] if current_user.user_budgets else None
     budget_amount_raw = float(user_budget.amount_limit) if user_budget else 0.0
     budget_period = user_budget.period if user_budget else 'month'
@@ -337,10 +351,9 @@ def member_dashboard():
     else:
         budget_amount = 0
     
-    # Остаток бюджета участника
     balance = budget_amount - total_expense
     
-    # 3. Расходы по категориям для участника
+    # Расходы по категориям для участника
     expense_by_category = {}
     for transaction in member_transactions:
         if transaction.amount < 0:
@@ -351,25 +364,21 @@ def member_dashboard():
     expense_categories = list(expense_by_category.keys())
     expense_amounts = list(expense_by_category.values())
     
-    # 4. Данные для графика участника
+    # Данные для графика участника
     chart_labels = []
     chart_balance_data = []
     
-    # stats = DashboardStats.query.filter_by(user_id=member.id).first()
     stats = DashboardStats.query.filter_by(user_id=current_user.id).first()
     now_date = datetime.utcnow().date()
 
     if period == 'day':
-        # Показываем позавчера, вчера, сегодня
         dates = [now - timedelta(days=2), now - timedelta(days=1), now]
         date_format = '%d.%m'
     elif period == 'week':
-        # Показываем все дни недели (с понедельника)
         start_date = now - timedelta(days=now.weekday())
         dates = [start_date + timedelta(days=i) for i in range(7)]
         date_format = '%d.%m'
-    else:  # month
-        # Показываем все дни месяца
+    else: 
         start_date = now.replace(day=1)
         if now.month == 12:
             end_date = now.replace(year=now.year+1, month=1, day=1) - timedelta(days=1)
@@ -382,7 +391,6 @@ def member_dashboard():
         date_str = date.isoformat()
         chart_labels.append(date.strftime(date_format))
 
-        # Если дата в будущем - ставим 0
         if date > now:
             chart_balance_data.append(0)
         elif stats and stats.daily_balance and date_str in stats.daily_balance:
@@ -397,7 +405,7 @@ def member_dashboard():
             chart_balance_data.append(day_balance)
 
 
-    # 5. Последние транзакции участника
+    # Последние транзакции участника
     recent_transactions = member_transactions[-5:] if len(member_transactions) > 5 else member_transactions
     
     return render_template('dashboard/member_dashboard.html',
@@ -417,21 +425,18 @@ def member_dashboard():
 @main_bp.route('/member_stats/<int:member_id>')
 @login_required
 def member_stats(member_id):
-    """Просмотр дашборда участника (только для владельца)"""
     if current_user.role != 'owner':
         flash('Доступ запрещен', 'danger')
         return redirect(url_for('main.index'))
     
     member = User.query.get_or_404(member_id)
     
-    # Проверка, что участник из той же семьи
     if member.family_id != current_user.family_id:
         flash('Доступ запрещен', 'danger')
         return redirect(url_for('main.index'))
     
     period = request.args.get('period', 'month')
     
-    # Определяем даты для периода (только для участника)
     now = datetime.utcnow().date()
     
     if period == 'day':
@@ -440,11 +445,10 @@ def member_stats(member_id):
     elif period == 'week':
         start_date = now - timedelta(days=now.weekday())
         end_date = now
-    else:  # month
+    else: 
         start_date = now.replace(day=1)
         end_date = now
     
-    # 1. Получаем расходы и доходы участника за период
     member_transactions = Transaction.query.filter_by(user_id=member.id).filter(
         Transaction.date >= start_date,
         Transaction.date <= end_date
@@ -453,12 +457,10 @@ def member_stats(member_id):
     total_income = sum(float(t.amount) for t in member_transactions if t.amount > 0)
     total_expense = sum(abs(float(t.amount)) for t in member_transactions if t.amount < 0)
     
-    # 2. Получаем бюджет участника
     user_budget = member.user_budgets[0] if member.user_budgets else None
     budget_amount_raw = float(user_budget.amount_limit) if user_budget else 0.0
     budget_period = user_budget.period if user_budget else 'month'
     
-    # Пересчет бюджета под выбранный период
     if budget_amount_raw > 0:
         if budget_period == 'day' and period == 'week':
             budget_amount = budget_amount_raw * 7
@@ -477,10 +479,8 @@ def member_stats(member_id):
     else:
         budget_amount = 0
     
-    # Остаток бюджета участника
     balance = budget_amount - total_expense
     
-    # 3. Расходы по категориям для участника
     expense_by_category = {}
     for transaction in member_transactions:
         if transaction.amount < 0:
@@ -491,8 +491,6 @@ def member_stats(member_id):
     expense_categories = list(expense_by_category.keys())
     expense_amounts = list(expense_by_category.values())
 
-    # Получаем данные для столбчатой диаграммы из DashboardStats
-
     chart_labels = []
     chart_balance_data = []
     
@@ -500,16 +498,13 @@ def member_stats(member_id):
     now_date = datetime.utcnow().date()
 
     if period == 'day':
-        # Показываем позавчера, вчера, сегодня
         dates = [now - timedelta(days=2), now - timedelta(days=1), now]
         date_format = '%d.%m'
     elif period == 'week':
-        # Показываем все дни недели (с понедельника)
         start_date = now - timedelta(days=now.weekday())
         dates = [start_date + timedelta(days=i) for i in range(7)]
         date_format = '%d.%m'
-    else:  # month
-        # Показываем все дни месяца
+    else: 
         start_date = now.replace(day=1)
         if now.month == 12:
             end_date = now.replace(year=now.year+1, month=1, day=1) - timedelta(days=1)
@@ -523,13 +518,11 @@ def member_stats(member_id):
         date_str = date.isoformat()
         chart_labels.append(date.strftime(date_format))
 
-        # Если дата в будущем - ставим 0
         if date > now:
             chart_balance_data.append(0)
         elif stats and stats.daily_balance and date_str in stats.daily_balance:
             chart_balance_data.append(stats.daily_balance[date_str])
         else:
-            # Считаем баланс участника на эту дату
             day_transactions = Transaction.query.filter_by(user_id=member.id).filter(
                 Transaction.date >= date,
                 Transaction.date <= date
@@ -553,19 +546,16 @@ def member_stats(member_id):
 @main_bp.route('/transactions', methods=['GET'])
 @login_required
 def transactions():
-    # Получаем параметры фильтрации
     search_term = request.args.get('search', '')
     date_from = request.args.get('date_from', '')
     date_to = request.args.get('date_to', '')
     
-    # Базовый запрос
     if current_user.role == 'owner' and current_user.family:
         family_member_ids = [user.id for user in current_user.family.users]
         query = Transaction.query.filter(Transaction.user_id.in_(family_member_ids))
     else:
         query = Transaction.query.filter_by(user_id=current_user.id)
     
-    # Применяем фильтры (включительно)
     if search_term:
         query = query.filter(Transaction.description.contains(search_term))
     
@@ -577,7 +567,6 @@ def transactions():
     
     transactions_list = query.order_by(Transaction.date.desc()).all()
     
-    # Получаем участников семьи и категории
     family_members = current_user.family.users if current_user.family and current_user.role == 'owner' else []
     categories = Category.query.filter_by(family_id=current_user.family_id).all() if current_user.family else []
     
@@ -592,50 +581,24 @@ def transactions():
                          user=current_user,
                          today=date.today().isoformat())
 
-@main_bp.route('/api/get_receipt/<int:id>')
-@login_required
-def get_receipt(id):
-    """Получение чека для просмотра"""
-    receipt = Receipt.query.get_or_404(id)
-    transaction = receipt.transaction
-    
-    # Проверка прав
-    if transaction.user_id != current_user.id and current_user.role not in ['owner', 'admin']:
-        return jsonify({'error': 'Доступ запрещен'}), 403
-    
-    # Возвращаем URL для доступа к файлу
-    file_url = url_for('main.uploaded_file', filename=os.path.basename(receipt.filepath))
-    return jsonify({'url': file_url})
-
-
-@main_bp.route('/uploads/<filename>')
-def uploaded_file(filename):
-    """Отдача загруженных файлов"""
-    from flask import send_from_directory
-    return send_from_directory(current_app.config['UPLOAD_FOLDER'], filename)
-
-
 @main_bp.route('/add_transaction', methods=['POST'])
 @login_required
 def add_transaction():
     try:
         description = request.form.get('description')
         date_str = request.form.get('date')
-        amount = abs(float(request.form.get('amount')))  # Всегда положительное число
+        amount = abs(float(request.form.get('amount'))) 
         category_id = int(request.form.get('category_id'))
         user_id = int(request.form.get('user_id'))
         
-        # Получаем категорию, чтобы определить тип транзакции
         category = Category.query.get(category_id)
         if not category:
             flash('Категория не найдена', 'danger')
             return redirect(url_for('main.transactions'))
         
-        # Для расходов делаем сумму отрицательной
         if category.type == 'expense':
             amount = -amount
         
-        # Проверка прав
         if user_id != current_user.id and current_user.role != 'owner':
             flash('У вас нет прав на добавление транзакций для других пользователей', 'danger')
             return redirect(url_for('main.transactions'))
@@ -651,10 +614,13 @@ def add_transaction():
         db.session.add(transaction)
         db.session.flush()
         
-        # Обработка файла чека
         if 'receipt' in request.files:
             file = request.files['receipt']
             if file and file.filename:
+                if not allowed_file(file.filename):
+                    flash('Неподдерживаемый формат файла. Разрешены: JPG, JPEG, PNG, PDF', 'danger')
+                    return redirect(url_for('main.transactions'))
+                
                 filename = secure_filename(f"{transaction.id}_{file.filename}")
                 filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
                 file.save(filepath)
@@ -685,7 +651,6 @@ def edit_transaction():
         transaction_id = int(request.form.get('transaction_id'))
         transaction = Transaction.query.get_or_404(transaction_id)
         
-        # Проверка прав
         if transaction.user_id != current_user.id and current_user.role != 'owner':
             flash('У вас нет прав на редактирование этой транзакции', 'danger')
             return redirect(url_for('main.transactions'))
@@ -696,7 +661,6 @@ def edit_transaction():
         category_id = int(request.form.get('category_id'))
         user_id = int(request.form.get('user_id'))
         
-        # Получаем категорию
         category = Category.query.get(category_id)
         if category.type == 'expense':
             amount = -amount
@@ -707,10 +671,14 @@ def edit_transaction():
         transaction.category_id = category_id
         transaction.user_id = user_id
         
-        # Обработка нового чека
         if 'receipt' in request.files:
             file = request.files['receipt']
             if file and file.filename:
+                # Проверка формата
+                if not allowed_file(file.filename):
+                    flash('Неподдерживаемый формат файла. Разрешены: JPG, JPEG, PNG, PDF', 'danger')
+                    return redirect(url_for('main.transactions'))
+                
                 # Удаляем старый чек если есть
                 if transaction.receipt:
                     if os.path.exists(transaction.receipt.filepath):
@@ -727,7 +695,7 @@ def edit_transaction():
                     filepath=filepath
                 )
                 db.session.add(receipt)
-        
+
         db.session.commit()
         if current_user.id:
             update_dashboard_stats(current_user.id)
@@ -745,7 +713,6 @@ def edit_transaction():
 def get_transaction(id):
     transaction = Transaction.query.get_or_404(id)
     
-    # Проверка прав
     if transaction.user_id != current_user.id and current_user.role != 'owner':
         return jsonify({'error': 'Доступ запрещен'}), 403
     
@@ -764,11 +731,9 @@ def delete_transaction(id):
     try:
         transaction = Transaction.query.get_or_404(id)
         
-        # Проверка прав
         if transaction.user_id != current_user.id and current_user.role != 'owner':
             return jsonify({'success': False, 'message': 'Доступ запрещен'}), 403
         
-        # Удаляем чек если есть
         if transaction.receipt:
             if os.path.exists(transaction.receipt.filepath):
                 os.remove(transaction.receipt.filepath)
@@ -786,10 +751,22 @@ def delete_transaction(id):
         db.session.rollback()
         return jsonify({'success': False, 'message': str(e)}), 500
 
+@main_bp.route('/api/get_receipt/<int:id>')
+@login_required
+def get_receipt(id):
+    receipt = Receipt.query.get_or_404(id)
+    transaction = receipt.transaction
+    
+    if transaction.user_id != current_user.id and current_user.role not in ['owner', 'admin']:
+        return jsonify({'error': 'Доступ запрещен'}), 403
+    
+    file_url = url_for('main.uploaded_file', filename=os.path.basename(receipt.filepath))
+    return jsonify({'url': file_url})
+
+
 @main_bp.route('/categories')
 @login_required
 def categories():
-    # Только владелец может управлять категориями
     if current_user.role != 'owner':
         flash('Только владелец семьи может управлять категориями', 'danger')
         return redirect(url_for('main.index'))
@@ -803,7 +780,6 @@ def categories():
 @main_bp.route('/add_category', methods=['POST'])
 @login_required
 def add_category():
-    """Добавление новой категории"""
     if current_user.role != 'owner':
         flash('Только владелец семьи может управлять категориями', 'danger')
         return redirect(url_for('main.categories'))
@@ -837,7 +813,6 @@ def add_category():
 @main_bp.route('/edit_category', methods=['POST'])
 @login_required
 def edit_category():
-    """Редактирование категории"""
     if current_user.role != 'owner':
         flash('Только владелец семьи может управлять категориями', 'danger')
         return redirect(url_for('main.categories'))
@@ -846,7 +821,6 @@ def edit_category():
         category_id = int(request.form.get('category_id'))
         category = Category.query.get_or_404(category_id)
         
-        # Проверка принадлежности категории семье
         if category.family_id != current_user.family_id:
             flash('Доступ запрещен', 'danger')
             return redirect(url_for('main.categories'))
@@ -869,7 +843,6 @@ def edit_category():
 @main_bp.route('/set_category_limit', methods=['POST'])
 @login_required
 def set_category_limit():
-    """Установка лимита на категорию"""
     if current_user.role != 'owner':
         flash('Только владелец семьи может устанавливать лимиты', 'danger')
         return redirect(url_for('main.categories'))
@@ -883,12 +856,10 @@ def set_category_limit():
         
         category = Category.query.get_or_404(category_id)
         
-        # Проверка принадлежности категории семье
         if category.family_id != current_user.family_id:
             flash('Доступ запрещен', 'danger')
             return redirect(url_for('main.categories'))
         
-        # Проверяем, есть ли уже лимит на эту категорию
         existing_limit = CategoryLimit.query.filter_by(category_id=category_id, period=period).first()
         
         if existing_limit:
@@ -914,10 +885,8 @@ def set_category_limit():
 @main_bp.route('/api/get_category/<int:id>')
 @login_required
 def get_category(id):
-    """Получение данных категории для редактирования"""
     category = Category.query.get_or_404(id)
     
-    # Проверка прав
     if category.family_id != current_user.family_id and current_user.role != 'admin':
         return jsonify({'error': 'Доступ запрещен'}), 403
     
@@ -932,18 +901,15 @@ def get_category(id):
 @main_bp.route('/api/delete_category/<int:id>', methods=['POST'])
 @login_required
 def delete_category(id):
-    """Удаление категории и всех связанных транзакций"""
     if current_user.role != 'owner':
         return jsonify({'success': False, 'message': 'Доступ запрещен'}), 403
     
     try:
         category = Category.query.get_or_404(id)
         
-        # Проверка принадлежности категории семье
         if category.family_id != current_user.family_id:
             return jsonify({'success': False, 'message': 'Доступ запрещен'}), 403
         
-        # Удаляем все связанные транзакции и их чеки
         for transaction in category.transactions:
             if transaction.receipt:
                 if os.path.exists(transaction.receipt.filepath):
@@ -951,11 +917,9 @@ def delete_category(id):
                 db.session.delete(transaction.receipt)
             db.session.delete(transaction)
         
-        # Удаляем лимиты категории
         for limit in category.category_limits:
             db.session.delete(limit)
         
-        # Удаляем саму категорию
         db.session.delete(category)
         db.session.commit()
         current_app.logger.info(f'User {current_user.id} ({current_user.username}) deleted category {category.id}: category: {category.name}')
@@ -966,10 +930,10 @@ def delete_category(id):
         db.session.rollback()
         return jsonify({'success': False, 'message': str(e)}), 500
 
+
 @main_bp.route('/members')
 @login_required
 def members():
-    # Только владелец может управлять участниками
     if current_user.role != 'owner':
         flash('Только владелец семьи может управлять участниками', 'danger')
         return redirect(url_for('main.index'))
@@ -985,26 +949,21 @@ def members():
 @main_bp.route('/api/delete_member/<int:id>', methods=['POST'])
 @login_required
 def delete_member(id):
-    """Удаление участника из семьи"""
     if current_user.role != 'owner':
         return jsonify({'success': False, 'message': 'Доступ запрещен'}), 403
     
     try:
         user_to_delete = User.query.get_or_404(id)
         
-        # Нельзя удалить самого себя
         if user_to_delete.id == current_user.id:
             return jsonify({'success': False, 'message': 'Нельзя удалить самого себя'}), 400
         
-        # Нельзя удалить владельца семьи
         if user_to_delete.role == 'owner':
             return jsonify({'success': False, 'message': 'Нельзя удалить владельца семьи'}), 400
         
-        # Проверка, что участник из той же семьи
         if user_to_delete.family_id != current_user.family_id:
             return jsonify({'success': False, 'message': 'Участник из другой семьи'}), 400
         
-        # Удаляем все транзакции участника и чеки
         for transaction in user_to_delete.transactions:
             if transaction.receipt:
                 if os.path.exists(transaction.receipt.filepath):
@@ -1012,11 +971,9 @@ def delete_member(id):
                 db.session.delete(transaction.receipt)
             db.session.delete(transaction)
         
-        # Удаляем бюджеты участника
         for budget in user_to_delete.user_budgets:
             db.session.delete(budget)
         
-        # Удаляем участника
         db.session.delete(user_to_delete)
         db.session.commit()
         current_app.logger.info(f'User {current_user.id} ({current_user.username}) deleted user {user_to_delete.id}: name: {user_to_delete.name}')
@@ -1031,15 +988,11 @@ def delete_member(id):
 @main_bp.route('/api/get_user/<int:id>')
 @login_required
 def get_user(id):
-    """Получение информации о пользователе"""
     user = User.query.get_or_404(id)
     
-    # Проверка прав (только владелец своей семьи или админ)
     if user.family_id != current_user.family_id and current_user.role != 'admin':
         return jsonify({'error': 'Доступ запрещен'}), 403
-    
-    # Получаем бюджет пользователя
-    user_budget = user.user_budgets[0] if user.user_budgets else None
+        user_budget = user.user_budgets[0] if user.user_budgets else None
     budget_amount = float(user_budget.amount_limit) if user_budget else 0
     
     return jsonify({
@@ -1054,7 +1007,6 @@ def get_user(id):
 @main_bp.route('/set_user_budget', methods=['POST'])
 @login_required
 def set_user_budget():
-    """Установка бюджета участнику"""
     if current_user.role != 'owner':
         flash('Только владелец семьи может устанавливать бюджет', 'danger')
         return redirect(url_for('main.members'))
@@ -1069,12 +1021,10 @@ def set_user_budget():
         
         user = User.query.get_or_404(user_id)
         
-        # Проверка принадлежности семьи
         if user.family_id != current_user.family_id:
             flash('Доступ запрещен', 'danger')
             return redirect(url_for('main.members'))
         
-        # Проверяем, есть ли уже бюджет
         existing_budget = UserBudget.query.filter_by(user_id=user_id, period=period).first()
         
         if existing_budget:
@@ -1109,32 +1059,27 @@ def profile():
 @main_bp.route('/edit_profile', methods=['POST'])
 @login_required
 def edit_profile():
-    """Редактирование профиля пользователя"""
     try:
         new_username = request.form.get('username')
         new_email = request.form.get('email')
         new_password = request.form.get('password')
         new_password2 = request.form.get('password2')
         
-        # Проверка уникальности логина
         if new_username != current_user.username:
             existing_user = User.query.filter_by(username=new_username).first()
             if existing_user:
                 flash('Пользователь с таким логином уже существует', 'danger')
                 return redirect(url_for('main.profile'))
         
-        # Проверка уникальности email
         if new_email != current_user.email:
             existing_email = User.query.filter_by(email=new_email).first()
             if existing_email:
                 flash('Пользователь с таким email уже существует', 'danger')
                 return redirect(url_for('main.profile'))
         
-        # Обновляем данные
         current_user.username = new_username
         current_user.email = new_email
         
-        # Обновляем пароль, если указан
         if new_password:
             if new_password != new_password2:
                 flash('Пароли не совпадают', 'danger')
@@ -1154,34 +1099,15 @@ def edit_profile():
     return redirect(url_for('main.profile'))
 
 
-@main_bp.route('/generate_invite_code', methods=['POST'])
-@login_required
-def generate_invite_code_route():
-    """Генерация нового кода приглашения"""
-    if current_user.role != 'owner':
-        flash('Доступ запрещен', 'danger')
-        return redirect(url_for('main.index'))
-    
-    if current_user.family:
-        new_code = generate_invite_code()
-        current_user.family.invite_code = new_code
-        db.session.commit()
-        flash(f'Новый код приглашения: {new_code}', 'success')
-    
-    return redirect(url_for('main.members'))
-
-
 @main_bp.route('/export_report')
 @login_required
 def export_report():
-    """Экспорт отчета в CSV"""
     import csv
     from io import StringIO
     from flask import Response
     
     period = request.args.get('period', 'month')
     
-    # Получаем транзакции
     if current_user.role == 'owner' and current_user.family:
         family_member_ids = [user.id for user in current_user.family.users]
         transactions = Transaction.query.filter(
@@ -1190,14 +1116,11 @@ def export_report():
     else:
         transactions = Transaction.query.filter_by(user_id=current_user.id).order_by(Transaction.date.desc()).all()
     
-    # Создаем CSV
     output = StringIO()
     writer = csv.writer(output)
     
-    # Заголовки
     writer.writerow(['Дата', 'Описание', 'Категория', 'Сумма', 'Тип', 'Участник'])
     
-    # Данные
     for t in transactions:
         writer.writerow([
             t.date.strftime('%d.%m.%Y'),
@@ -1208,7 +1131,6 @@ def export_report():
             t.user.username
         ])
     
-    # Отправляем файл
     response = Response(output.getvalue(), mimetype='text/csv')
     response.headers.set('Content-Disposition', 'attachment', filename=f'report_{period}_{datetime.now().strftime("%Y%m%d")}.csv')
     

@@ -10,20 +10,19 @@
 {% block content %}
 <h2 class="mb-4">Все транзакции системы</h2>
 
-<!-- Фильтры -->
 <div class="card mb-4">
     <div class="card-body">
         <form method="GET" action="{{ url_for('admin.view_all_transactions') }}" class="row g-3">
             <div class="col-md-3">
                 <label class="form-label">Поиск по описанию</label>
-                <input type="text" name="search" class="form-control" placeholder="Поиск..." value="{{ request.args.get('search', '') }}">
+                <input type="text" name="search" class="form-control" placeholder="Поиск..." value="{{ search }}">
             </div>
             <div class="col-md-3">
                 <label class="form-label">Пользователь</label>
                 <select name="user_id" class="form-select">
                     <option value="">Все пользователи</option>
                     {% for u in users %}
-                    <option value="{{ u.id }}" {% if request.args.get('user_id')|int == u.id %}selected{% endif %}>
+                    <option value="{{ u.id }}" {% if user_id|int == u.id %}selected{% endif %}>
                         {{ u.username }} ({{ u.role }})
                     </option>
                     {% endfor %}
@@ -31,11 +30,11 @@
             </div>
             <div class="col-md-3">
                 <label class="form-label">Дата с</label>
-                <input type="date" name="date_from" class="form-control" value="{{ request.args.get('date_from', '') }}">
+                <input type="date" name="date_from" class="form-control" value="{{ date_from }}">
             </div>
             <div class="col-md-3">
                 <label class="form-label">Дата по</label>
-                <input type="date" name="date_to" class="form-control" value="{{ request.args.get('date_to', '') }}">
+                <input type="date" name="date_to" class="form-control" value="{{ date_to }}">
             </div>
             <div class="col-12">
                 <button type="submit" class="btn btn-primary">Применить фильтр</button>

@@ -9,7 +9,6 @@
 {% block content %}
 <h2 class="mb-4">Добро пожаловать, {{ user.username }}!</h2>
 
-<!-- Выбор периода -->
 <div class="mb-4">
     <div class="btn-group" role="group">
         <a href="?period=day" class="btn btn-outline-primary {% if period == 'day' %}active{% endif %}">День</a>
@@ -18,7 +17,6 @@
     </div>
 </div>
 
-<!-- Карточки с показателями в одну строку -->
 <div class="row mb-4">
     <div class="col-md-2-4">
         <div class="card text-center bg-danger text-white">
@@ -79,7 +77,6 @@
 </style>
 
 <div class="row">
-    <!-- Круговая диаграмма расходов по категориям -->
     <div class="col-md-6 mb-4">
         <div class="card h-100">
             <div class="card-header">
@@ -94,7 +91,6 @@
         </div>
     </div>
 
-    <!-- Динамика баланса -->
     <div class="col-md-6 mb-4">
         <div class="card h-100">
             <div class="card-header">
@@ -110,7 +106,6 @@
     </div>
 </div>
 
-<!-- Последние транзакции -->
 <div class="row mt-2 mb-5">
     <div class="col-12">
         <div class="card">
@@ -155,13 +150,12 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-// Данные из Flask
 const expenseCategories = {{ expense_categories | tojson }};
 const expenseAmounts = {{ expense_amounts | tojson }};
 const chartLabels = {{ chart_labels | tojson }};
 const chartBalanceData = {{ chart_balance_data | tojson }};
 
-// 1. Круговая диаграмма расходов
+// Круговая диаграмма расходов
 if (expenseCategories.length > 0) {
     const ctx1 = document.getElementById('expenseChart').getContext('2d');
     new Chart(ctx1, {
@@ -201,7 +195,7 @@ if (expenseCategories.length > 0) {
     });
 }
 
-// 2. Столбчатая диаграмма динамики баланса
+// Столбчатая диаграмма динамики баланса
 if (chartLabels.length > 0) {
     const ctx2 = document.getElementById('balanceChart').getContext('2d');
     

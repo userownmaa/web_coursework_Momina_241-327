@@ -16,7 +16,6 @@
 {% block content %}
 <h2 class="mb-4">Управление транзакциями</h2>
 
-<!-- Фильтры -->
 <div class="card mb-4">
     <div class="card-body">
         <form method="GET" action="{{ url_for('main.transactions') }}" class="row g-3" id="filterForm">
@@ -34,7 +33,6 @@
             </div>
             <div class="col-md-2 d-flex align-items-end">
                 <button type="submit" class="btn btn-primary w-100">Применить фильтр</button>
-                <!-- <a href="{{ url_for('main.transactions') }}" class="btn btn-secondary w-100 ms-2">Сбросить</a> -->
             </div>
         </form>
     </div>
@@ -235,7 +233,6 @@
 </div>
 
 <script>
-// Ограничение даты в форме фильтрации
 document.addEventListener('DOMContentLoaded', function() {
     let today = "{{ today }}";
     let dateInputs = document.querySelectorAll('input[type="date"]');

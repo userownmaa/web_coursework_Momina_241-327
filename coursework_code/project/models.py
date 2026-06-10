@@ -15,10 +15,8 @@ class Family(db.Model):
     invite_code = db.Column(db.String(20), unique=True, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=True)
     
-    # Отношения
     users = db.relationship('User', back_populates='family', lazy=True)
     categories = db.relationship('Category', back_populates='family', lazy=True)
-    # УДАЛЯЕМ связь с dashboard_stats - она теперь в User
     
     def get_members(self):
         return self.users
@@ -52,41 +50,8 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         from bcrypt import checkpw
         return checkpw(password.encode('utf-8'), self.password_hash.encode('utf-8'))
-    
-    # def get_transactions(self, period='all'):
-    #     """Получить транзакции пользователя за период"""
-    #     now = datetime.utcnow()
-        
-    #     if period == 'day':
-    #         start_date = now.replace(hour=0, minute=0, second=0, microsecond=0)
-    #         end_date = now.replace(hour=23, minute=59, second=59, microsecond=999999)
-    #         return Transaction.query.filter_by(user_id=self.id).filter(
-    #             Transaction.date >= start_date, 
-    #             Transaction.date <= end_date
-    #         ).all()
-    #     elif period == 'week':
-    #         start_date = now - timedelta(days=now.weekday())
-    #         start_date = start_date.replace(hour=0, minute=0, second=0, microsecond=0)
-    #         end_date = start_date + timedelta(days=6, hours=23, minutes=59, seconds=59)
-    #         return Transaction.query.filter_by(user_id=self.id).filter(
-    #             Transaction.date >= start_date,
-    #             Transaction.date <= end_date
-    #         ).all()
-    #     elif period == 'month':
-    #         start_date = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
-    #         if now.month == 12:
-    #             end_date = now.replace(year=now.year+1, month=1, day=1) - timedelta(seconds=1)
-    #         else:
-    #             end_date = now.replace(month=now.month+1, day=1) - timedelta(seconds=1)
-    #         return Transaction.query.filter_by(user_id=self.id).filter(
-    #             Transaction.date >= start_date,
-    #             Transaction.date <= end_date
-    #         ).all()
-    #     else:
-    #         return Transaction.query.filter_by(user_id=self.id).all()
 
     def get_transactions(self, period='all'):
-        """Получить транзакции пользователя за период"""
         now = datetime.utcnow()
         
         if period == 'day':
@@ -118,23 +83,19 @@ class User(UserMixin, db.Model):
             return Transaction.query.filter_by(user_id=self.id).all()
     
     def get_total_income(self, period='all'):
-        """Получить сумму доходов за период"""
         transactions = self.get_transactions(period)
         total = sum(float(t.amount) for t in transactions if t.amount > 0)
         return total
     
     def get_total_expense(self, period='all'):
-        """Получить сумму расходов за период"""
         transactions = self.get_transactions(period)
         total = sum(float(t.amount) for t in transactions if t.amount < 0)
         return total
     
     def get_balance(self, period='all'):
-        """Получить баланс за период"""
         return self.get_total_income(period) + self.get_total_expense(period)
     
     def get_category_breakdown(self, period='all'):
-        """Получить распределение расходов по категориям"""
         from collections import defaultdict
         transactions = self.get_transactions(period)
         
@@ -144,28 +105,6 @@ class User(UserMixin, db.Model):
                 breakdown[t.category.name] += abs(float(t.amount))
         
         return dict(breakdown)
-
-    # def get_total_income_for_date(self, target_date):
-    #     """Получить сумму доходов за конкретную дату"""
-    #     start_date = target_date.replace(hour=0, minute=0, second=0, microsecond=0)
-    #     end_date = target_date.replace(hour=23, minute=59, second=59, microsecond=999999)
-    #     transactions = Transaction.query.filter_by(user_id=self.id).filter(
-    #         Transaction.date >= start_date,
-    #         Transaction.date <= end_date,
-    #         Transaction.amount > 0
-    #     ).all()
-    #     return sum(float(t.amount) for t in transactions)
-
-    # def get_total_expense_for_date(self, target_date):
-    #     """Получить сумму расходов за конкретную дату"""
-    #     start_date = target_date.replace(hour=0, minute=0, second=0, microsecond=0)
-    #     end_date = target_date.replace(hour=23, minute=59, second=59, microsecond=999999)
-    #     transactions = Transaction.query.filter_by(user_id=self.id).filter(
-    #         Transaction.date >= start_date,
-    #         Transaction.date <= end_date,
-    #         Transaction.amount < 0
-    #     ).all()
-    #     return sum(float(t.amount) for t in transactions)
     
     def __repr__(self):
         return f'<User {self.username}>'
@@ -263,7 +202,6 @@ class DashboardStats(db.Model):
     daily_balance = db.Column(JSON, default=dict)
     last_calculated = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
-    # Отношения
     user = db.relationship('User', back_populates='dashboard_stats')
     
     def __repr__(self):

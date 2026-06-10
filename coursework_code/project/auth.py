@@ -9,7 +9,6 @@ from flask import current_app
 auth_bp = Blueprint('auth', __name__)
 
 def generate_invite_code():
-    """Генерация уникального кода приглашения"""
     alphabet = string.ascii_uppercase + string.digits
     return 'FAM-' + ''.join(secrets.choice(alphabet) for _ in range(6))
 
@@ -29,7 +28,6 @@ def login():
             current_app.logger.info(f'User {user.id} ({user.username}) logged in successfully')
             flash(f'Вход успешен, {user.username}!', 'success')
             
-            # Перенаправление на соответствующую страницу в зависимости от роли
             if user.role == 'admin':
                 return redirect(url_for('admin.admin_dashboard'))
             elif user.role == 'owner':
@@ -49,25 +47,22 @@ def register():
     
     if request.method == 'POST':
         username = request.form.get('username')
-        email = request.form.get('email')  # Добавлено поле email
+        email = request.form.get('email')  
         password = request.form.get('password')
         role = request.form.get('role')
         invite_code = request.form.get('invite_code')
         
-        # Проверка, существует ли пользователь
         existing_user = User.query.filter_by(username=username).first()
         if existing_user:
             flash('Пользователь с таким именем уже существует', 'danger')
             return redirect(url_for('auth.register'))
         
-        # Проверка email
         existing_email = User.query.filter_by(email=email).first()
         if existing_email:
             flash('Пользователь с таким email уже существует', 'danger')
             return redirect(url_for('auth.register'))
         
         if role == 'owner':
-            # Создаем новую семью
             new_invite_code = generate_invite_code()
             family = Family(name=f"Семья {username}", invite_code=new_invite_code)
             db.session.add(family)
@@ -78,7 +73,6 @@ def register():
             db.session.add(user)
             db.session.flush()
             
-            # Создаем стандартные категории
             default_categories = [
                 Category(name='Продукты', type='expense', color='#dc3545', description='Покупка продуктов питания', family_id=family.id),
                 Category(name='Транспорт', type='expense', color='#ffc107', description='Проезд, такси, бензин', family_id=family.id),
@@ -97,7 +91,6 @@ def register():
             flash(f'Семья "{family.name}" создана! Ваш код приглашения: {new_invite_code}', 'success')
             
         elif role == 'member':
-            # Поиск семьи по коду приглашения
             if not invite_code:
                 flash('Для регистрации как участник нужен код приглашения', 'danger')
                 return redirect(url_for('auth.register'))

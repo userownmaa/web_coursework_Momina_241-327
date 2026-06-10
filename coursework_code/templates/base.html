@@ -10,7 +10,6 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
 
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
             <a class="navbar-brand fw-bold" href="{{ url_for('main.index') }}">💰 MoneyManage</a>
@@ -21,17 +20,14 @@
                 <ul class="navbar-nav me-auto">
                     {% if current_user.is_authenticated %}
                         {% if current_user.role == 'owner' %}
-                            <!-- Навигация для владельца -->
                             <li class="nav-item"><a class="nav-link {% if request.endpoint == 'main.owner_dashboard' %}active{% endif %}" href="{{ url_for('main.owner_dashboard') }}">Главная</a></li>
                             <li class="nav-item"><a class="nav-link {% if request.endpoint == 'main.transactions' %}active{% endif %}" href="{{ url_for('main.transactions') }}">Транзакции</a></li>
                             <li class="nav-item"><a class="nav-link {% if request.endpoint == 'main.categories' %}active{% endif %}" href="{{ url_for('main.categories') }}">Категории</a></li>
                             <li class="nav-item"><a class="nav-link {% if request.endpoint == 'main.members' %}active{% endif %}" href="{{ url_for('main.members') }}">Участники</a></li>
                         {% elif current_user.role == 'member' %}
-                            <!-- Навигация для участника -->
                             <li class="nav-item"><a class="nav-link {% if request.endpoint == 'main.member_dashboard' %}active{% endif %}" href="{{ url_for('main.member_dashboard') }}">Главная</a></li>
                             <li class="nav-item"><a class="nav-link {% if request.endpoint == 'main.transactions' %}active{% endif %}" href="{{ url_for('main.transactions') }}">Мои транзакции</a></li>
                         {% elif current_user.role == 'admin' %}
-                            <!-- Навигация для админа -->
                             <li class="nav-item"><a class="nav-link {% if request.endpoint == 'admin.admin_dashboard' %}active{% endif %}" href="{{ url_for('admin.admin_dashboard') }}">Админ-панель</a></li>
                         {% endif %}
                     {% endif %}
@@ -77,6 +73,5 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </body>
 </html>

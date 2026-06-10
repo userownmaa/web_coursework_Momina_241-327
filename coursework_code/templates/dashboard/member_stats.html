@@ -8,7 +8,6 @@
 {% block content %}
 <h2 class="mb-4">Дашборд участника: {{ member.username }}</h2>
 
-<!-- Выбор периода -->
 <div class="mb-4">
     <div class="btn-group" role="group">
         <a href="?period=day" class="btn btn-outline-primary {% if period == 'day' %}active{% endif %}">День</a>
@@ -17,7 +16,6 @@
     </div>
 </div>
 
-<!-- Карточки с показателями -->
 <div class="row mb-4">
     <div class="col-md-2-4">
         <div class="card text-center bg-danger text-white">

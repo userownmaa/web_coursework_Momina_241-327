@@ -8,6 +8,7 @@
 {% block content %}
 <h2 class="mb-4">Панель администратора</h2>
 
+
 <!-- Управление приложением -->
 <div class="card mb-4">
     <div class="card-header bg-primary text-white">
@@ -15,24 +16,17 @@
     </div>
     <div class="card-body">
         <div class="row">
-            <div class="col-md-4 mb-3">
+            <div class="col-md-6 mb-3">
                 <div class="d-grid">
                     <button class="btn btn-outline-primary" onclick="viewLogs()">
                         <i class="bi bi-file-text"></i> Просмотр логов
                     </button>
                 </div>
             </div>
-            <div class="col-md-4 mb-3">
+            <div class="col-md-6 mb-3">
                 <div class="d-grid">
                     <button class="btn btn-outline-success" onclick="backupDatabase()">
-                        <i class="bi bi-database"></i> Резервное копирование БД
-                    </button>
-                </div>
-            </div>
-            <div class="col-md-4 mb-3">
-                <div class="d-grid">
-                    <button class="btn btn-outline-warning" onclick="restoreDatabase()">
-                        <i class="bi bi-arrow-repeat"></i> Восстановление БД из резервной копии
+                        <i class="bi bi-database"></i> Создать резервную копию БД
                     </button>
                 </div>
             </div>
@@ -168,20 +162,27 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Роль</label>
-                        <select name="role" class="form-select" required>
+                        <select name="role" class="form-select" required id="adminRoleSelect">
                             <option value="member">Участник</option>
                             <option value="owner">Владелец</option>
-                            <option value="admin">Администратор</option>
                         </select>
                     </div>
-                    <div class="mb-3" id="familySelectDiv" style="display: none;">
-                        <label class="form-label">Семья</label>
-                        <select name="family_id" class="form-select">
-                            <option value="">Нет семьи</option>
+                    
+                    <div class="mb-3" id="adminFamilySelectDiv">
+                        <label class="form-label">Семья <span class="text-danger" id="familyRequired">*</span></label>
+                        <select name="family_id" class="form-select" id="adminFamilySelect">
+                            <option value="">-- Выберите семью --</option>
                             {% for family in families %}
-                            <option value="{{ family.id }}">{{ family.name }}</option>
+                            <option value="{{ family.id }}">{{ family.name }} (код: {{ family.invite_code }})</option>
                             {% endfor %}
                         </select>
+                        <small class="text-muted">Выберите семью, к которой присоединится участник</small>
+                    </div>
+                    
+                    <div class="mb-3" id="adminOwnerInfo" style="display: none;">
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle"></i> Для владельца будет автоматически создана новая семья
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -193,8 +194,205 @@
     </div>
 </div>
 
+<!-- Модальное окно просмотра пользователя -->
+<div class="modal fade" id="viewUserModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Информация о пользователе</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="viewUserBody">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно сброса пароля -->
+<div class="modal fade" id="resetPasswordModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Сброс пароля</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="resetUserId">
+                <div class="mb-3">
+                    <label class="form-label">Пользователь</label>
+                    <input type="text" id="resetUsername" class="form-control" readonly disabled>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Новый пароль</label>
+                    <input type="password" id="resetPassword" class="form-control" placeholder="Минимум 4 символа">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-primary" onclick="confirmResetPassword()">Сбросить пароль</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно удаления пользователя -->
+<div class="modal fade" id="deleteUserModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Удаление пользователя</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="deleteUserId">
+                <p>Вы уверены, что хотите удалить пользователя <strong id="deleteUsername"></strong>?</p>
+                <p class="text-danger">Все транзакции, чеки и данные пользователя будут безвозвратно удалены!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-danger" onclick="confirmDeleteUser()">Удалить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-// Поиск пользователей
+function viewUserDetails(userId) {
+    fetch(`/admin/api/get_user/${userId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('viewUserBody').innerHTML = `
+                    <p><strong>ID:</strong> ${data.id}</p>
+                    <p><strong>Логин:</strong> ${data.username}</p>
+                    <p><strong>Email:</strong> ${data.email}</p>
+                    <p><strong>Роль:</strong> ${data.role === 'admin' ? 'Администратор' : (data.role === 'owner' ? 'Владелец' : 'Участник')}</p>
+                    <p><strong>Семья:</strong> ${data.family_name}</p>
+                    <p><strong>Бюджет:</strong> ${data.budget.toFixed(0)} ₽ (${data.budget_period})</p>
+                `;
+                new bootstrap.Modal(document.getElementById('viewUserModal')).show();
+            }
+        });
+}
+
+// Управление формой добавления пользователя
+const adminRoleSelect = document.getElementById('adminRoleSelect');
+const adminFamilySelectDiv = document.getElementById('adminFamilySelectDiv');
+const adminOwnerInfo = document.getElementById('adminOwnerInfo');
+const adminFamilySelect = document.getElementById('adminFamilySelect');
+
+if (adminRoleSelect) {
+    adminRoleSelect.addEventListener('change', function() {
+        if (this.value === 'owner') {
+            adminFamilySelectDiv.style.display = 'none';
+            adminOwnerInfo.style.display = 'block';
+            adminFamilySelect.required = false;
+            adminFamilySelect.value = '';
+        } else {
+            adminFamilySelectDiv.style.display = 'block';
+            adminOwnerInfo.style.display = 'none';
+            adminFamilySelect.required = true;
+        }
+    });
+}
+
+// Инициализация при загрузке
+if (adminRoleSelect && adminRoleSelect.value === 'owner') {
+    adminFamilySelectDiv.style.display = 'none';
+    adminOwnerInfo.style.display = 'block';
+    adminFamilySelect.required = false;
+} else {
+    adminFamilySelectDiv.style.display = 'block';
+    adminOwnerInfo.style.display = 'none';
+    adminFamilySelect.required = true;
+}
+
+function showResetPasswordModal(userId, username) {
+    document.getElementById('resetUserId').value = userId;
+    document.getElementById('resetUsername').value = username;
+    document.getElementById('resetPassword').value = '';
+    new bootstrap.Modal(document.getElementById('resetPasswordModal')).show();
+}
+
+function confirmResetPassword() {
+    const userId = document.getElementById('resetUserId').value;
+    const newPassword = document.getElementById('resetPassword').value;
+    
+    if (!newPassword || newPassword.length < 4) {
+        alert('Пароль должен содержать минимум 4 символа');
+        return;
+    }
+    
+    fetch(`/admin/api/reset_password/${userId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: newPassword })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            bootstrap.Modal.getInstance(document.getElementById('resetPasswordModal')).hide();
+            alert(data.message);
+        } else {
+            alert('Ошибка: ' + data.message);
+        }
+    });
+}
+
+function showDeleteUserModal(userId, username) {
+    document.getElementById('deleteUserId').value = userId;
+    document.getElementById('deleteUsername').innerHTML = username;
+    new bootstrap.Modal(document.getElementById('deleteUserModal')).show();
+}
+
+function confirmDeleteUser() {
+    const userId = document.getElementById('deleteUserId').value;
+    
+    fetch(`/admin/api/delete_user/${userId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            bootstrap.Modal.getInstance(document.getElementById('deleteUserModal')).hide();
+            alert(data.message);
+            location.reload();
+        } else {
+            alert('Ошибка: ' + data.message);
+        }
+    });
+}
+
+function updateActionButtons() {
+    document.querySelectorAll('#usersTableBody .btn-outline-info').forEach(btn => {
+        const userId = btn.getAttribute('onclick').match(/\d+/)[0];
+        btn.setAttribute('onclick', `viewUserDetails(${userId})`);
+    });
+    
+    document.querySelectorAll('#usersTableBody .btn-outline-warning').forEach(btn => {
+        const userId = btn.getAttribute('onclick').match(/\d+/)[0];
+        const row = btn.closest('tr');
+        const username = row.cells[1].innerText;
+        btn.setAttribute('onclick', `showResetPasswordModal(${userId}, '${username}')`);
+    });
+    
+    document.querySelectorAll('#usersTableBody .btn-outline-danger').forEach(btn => {
+        const userId = btn.getAttribute('onclick').match(/\d+/)[0];
+        const row = btn.closest('tr');
+        const username = row.cells[1].innerText;
+        btn.setAttribute('onclick', `showDeleteUserModal(${userId}, '${username}')`);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    updateActionButtons();
+});
+
 function searchUsers() {
     let searchTerm = document.getElementById('searchUser').value.toLowerCase();
     let rows = document.querySelectorAll('#usersTableBody tr');
@@ -209,61 +407,10 @@ function searchUsers() {
     });
 }
 
-// Просмотр пользователя
-function viewUserDetails(userId) {
-    fetch(`/admin/api/get_user/${userId}`)
-        .then(response => response.json())
-        .then(data => {
-            alert(`Пользователь:\n\nЛогин: ${data.username}\nEmail: ${data.email}\nРоль: ${data.role}\nСемья: ${data.family_name || '—'}`);
-        });
-}
-
-// Сброс пароля
-function resetUserPassword(userId) {
-    let newPassword = prompt('Введите новый пароль для пользователя:');
-    if (newPassword && newPassword.length >= 4) {
-        fetch(`/admin/api/reset_password/${userId}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ password: newPassword })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Пароль успешно изменен');
-            } else {
-                alert('Ошибка: ' + data.message);
-            }
-        });
-    } else if (newPassword) {
-        alert('Пароль должен содержать минимум 4 символа');
-    }
-}
-
-// Удаление пользователя
-function deleteUser(userId) {
-    if (confirm('Вы уверены, что хотите удалить этого пользователя? Все его транзакции также будут удалены!')) {
-        fetch(`/admin/api/delete_user/${userId}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                location.reload();
-            } else {
-                alert('Ошибка: ' + data.message);
-            }
-        });
-    }
-}
-
-// Просмотр логов
 function viewLogs() {
     window.open('/admin/logs', '_blank');
 }
 
-// Резервное копирование
 function backupDatabase() {
     fetch('/admin/api/backup', {
         method: 'POST',
@@ -279,49 +426,10 @@ function backupDatabase() {
     });
 }
 
-// Восстановление из резервной копии
-function restoreDatabase() {
-    let backupFile = prompt('Введите имя файла резервной копии:');
-    if (backupFile) {
-        fetch('/admin/api/restore', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ filename: backupFile })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('База данных восстановлена');
-                location.reload();
-            } else {
-                alert('Ошибка: ' + data.message);
-            }
-        });
-    }
-}
-
-// Просмотр всех файлов
 function viewAllFiles() {
     window.open('/admin/files', '_blank');
 }
 
-// Очистка неиспользуемых файлов
-function cleanupFiles() {
-    if (confirm('Удалить все файлы, не привязанные к транзакциям?')) {
-        fetch('/admin/api/cleanup_files', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert(`Удалено ${data.deleted} файлов`);
-            } else {
-                alert('Ошибка: ' + data.message);
-            }
-        });
-    }
-}
 
 function showAddUserModal() {
     new bootstrap.Modal(document.getElementById('addUserModal')).show();

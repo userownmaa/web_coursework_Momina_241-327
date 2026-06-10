@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.4.1)  6 JUN 2026 20:45
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.4.1)  11 JUN 2026 00:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2097,47 +2097,47 @@ Underfull \hbox (badness 10000) in paragraph at lines 137--137
  []
 
 [15]
-<images/auth_use_case.jpg, id=196, 670.00313pt x 692.5875pt>
+<images/auth_use_case.jpg, id=197, 670.00313pt x 692.5875pt>
 File: images/auth_use_case.jpg Graphic file (type jpg)
 <use images/auth_use_case.jpg>
 Package pdftex.def Info: images/auth_use_case.jpg  used on input line 151.
 (pdftex.def)             Requested size: 328.6279pt x 339.69844pt.
  [16 <./images/auth_use_case.jpg>]
-<images/transactions_use_case.jpg, id=203, 682.04813pt x 643.6547pt>
+<images/transactions_use_case.jpg, id=204, 682.04813pt x 643.6547pt>
 File: images/transactions_use_case.jpg Graphic file (type jpg)
 <use images/transactions_use_case.jpg>
 Package pdftex.def Info: images/transactions_use_case.jpg  used on input line 1
 84.
 (pdftex.def)             Requested size: 328.6279pt x 310.1293pt.
  [17 <./images/transactions_use_case.jpg>]
-<images/categories_budgets_use_case.jpg, id=210, 521.69907pt x 682.80093pt>
+<images/categories_budgets_use_case.jpg, id=211, 521.69907pt x 682.80093pt>
 File: images/categories_budgets_use_case.jpg Graphic file (type jpg)
 <use images/categories_budgets_use_case.jpg>
 Package pdftex.def Info: images/categories_budgets_use_case.jpg  used on input 
 line 217.
 (pdftex.def)             Requested size: 328.6279pt x 430.11476pt.
  [18 <./images/categories_budgets_use_case.jpg>]
-<images/files_use_case.jpg, id=217, 397.485pt x 694.09312pt>
+<images/files_use_case.jpg, id=218, 397.485pt x 694.09312pt>
 File: images/files_use_case.jpg Graphic file (type jpg)
 <use images/files_use_case.jpg>
 Package pdftex.def Info: images/files_use_case.jpg  used on input line 252.
 (pdftex.def)             Requested size: 234.73524pt x 409.90326pt.
  [19 <./images/files_use_case.jpg>]
-<images/analytics_use_case.jpg, id=225, 897.3525pt x 660.21657pt>
+<images/analytics_use_case.jpg, id=226, 897.3525pt x 660.21657pt>
 File: images/analytics_use_case.jpg Graphic file (type jpg)
 <use images/analytics_use_case.jpg>
 Package pdftex.def Info: images/analytics_use_case.jpg  used on input line 285.
 
 (pdftex.def)             Requested size: 328.6279pt x 241.77792pt.
  [20 <./images/analytics_use_case.jpg>]
-<images/admin_use_case.jpg, id=232, 765.6103pt x 695.59875pt>
+<images/admin_use_case.jpg, id=233, 765.6103pt x 695.59875pt>
 File: images/admin_use_case.jpg Graphic file (type jpg)
 <use images/admin_use_case.jpg>
 Package pdftex.def Info: images/admin_use_case.jpg  used on input line 316.
 (pdftex.def)             Requested size: 328.6279pt x 298.58154pt.
  [21 <./images/admin_use_case.jpg>] [22]
 LaTeX Font Info:    Trying to load font information for T2A+cmtt on input line 
-419.
+379.
  (/usr/share/texlive/texmf-dist/tex/latex/cyrillic/t2acmtt.fd
 File: t2acmtt.fd 2001/08/11 v1.0a Computer Modern Cyrillic font definitions
 )
@@ -2147,79 +2147,79 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             See the microtype manual for details.
  [23]
 [24]
-<images/er_diagram.jpg, id=253, 1927.2pt x 1020.81375pt>
+<images/er_diagram.jpg, id=254, 1927.2pt x 1020.81375pt>
 File: images/er_diagram.jpg Graphic file (type jpg)
 <use images/er_diagram.jpg>
-Package pdftex.def Info: images/er_diagram.jpg  used on input line 465.
+Package pdftex.def Info: images/er_diagram.jpg  used on input line 407.
 (pdftex.def)             Requested size: 445.99553pt x 236.23082pt.
  [25 <./images/er_diagram.jpg>]
-<images/wireframe_login.jpg, id=260, 963.6pt x 620.3175pt>
+<images/wireframe_login.jpg, id=261, 963.6pt x 620.3175pt>
 File: images/wireframe_login.jpg Graphic file (type jpg)
 <use images/wireframe_login.jpg>
-Package pdftex.def Info: images/wireframe_login.jpg  used on input line 492.
+Package pdftex.def Info: images/wireframe_login.jpg  used on input line 434.
 (pdftex.def)             Requested size: 281.68515pt x 181.32619pt.
-<images/wireframe_register.jpg, id=261, 963.6pt x 622.57594pt>
+<images/wireframe_register.jpg, id=262, 963.6pt x 622.57594pt>
 File: images/wireframe_register.jpg Graphic file (type jpg)
 <use images/wireframe_register.jpg>
-Package pdftex.def Info: images/wireframe_register.jpg  used on input line 503.
+Package pdftex.def Info: images/wireframe_register.jpg  used on input line 445.
 
 (pdftex.def)             Requested size: 281.68515pt x 181.98636pt.
  [26 <./images/wireframe_login.jpg>]
-<images/wireframe_dashboard_admin.jpg, id=267, 539.76656pt x 691.08188pt>
+<images/wireframe_dashboard_admin.jpg, id=268, 539.76656pt x 691.08188pt>
 File: images/wireframe_dashboard_admin.jpg Graphic file (type jpg)
 <use images/wireframe_dashboard_admin.jpg>
 Package pdftex.def Info: images/wireframe_dashboard_admin.jpg  used on input li
-ne 514.
+ne 456.
 (pdftex.def)             Requested size: 281.68515pt x 360.65114pt.
 
 [27 <./images/wireframe_register.jpg> <./images/wireframe_dashboard_admin.jpg>]
-<images/wireframe_dashboard_owner.jpg, id=274, 460.72125pt x 637.63219pt>
+<images/wireframe_dashboard_owner.jpg, id=275, 460.72125pt x 637.63219pt>
 File: images/wireframe_dashboard_owner.jpg Graphic file (type jpg)
 <use images/wireframe_dashboard_owner.jpg>
 Package pdftex.def Info: images/wireframe_dashboard_owner.jpg  used on input li
-ne 525.
+ne 467.
 (pdftex.def)             Requested size: 281.68515pt x 389.84045pt.
 [28 <./images/wireframe_dashboard_owner.jpg>]
-<images/wireframe_dashboard_member.jpg, id=280, 615.0478pt x 677.53125pt>
+<images/wireframe_dashboard_member.jpg, id=281, 615.0478pt x 677.53125pt>
 File: images/wireframe_dashboard_member.jpg Graphic file (type jpg)
 <use images/wireframe_dashboard_member.jpg>
 Package pdftex.def Info: images/wireframe_dashboard_member.jpg  used on input l
-ine 536.
+ine 478.
 (pdftex.def)             Requested size: 281.68515pt x 310.3035pt.
-<images/wireframe_profile.jpg, id=281, 733.99219pt x 651.93562pt>
+<images/wireframe_profile.jpg, id=282, 733.99219pt x 651.93562pt>
 File: images/wireframe_profile.jpg Graphic file (type jpg)
 <use images/wireframe_profile.jpg>
-Package pdftex.def Info: images/wireframe_profile.jpg  used on input line 547.
+Package pdftex.def Info: images/wireframe_profile.jpg  used on input line 489.
 (pdftex.def)             Requested size: 281.68515pt x 250.19519pt.
  [29 <./images/wireframe_dashboard_member.jpg>]
-<images/wireframe_members_management.jpg, id=287, 963.6pt x 621.07031pt>
+<images/wireframe_members_management.jpg, id=288, 963.6pt x 621.07031pt>
 File: images/wireframe_members_management.jpg Graphic file (type jpg)
 <use images/wireframe_members_management.jpg>
 Package pdftex.def Info: images/wireframe_members_management.jpg  used on input
- line 558.
+ line 500.
 (pdftex.def)             Requested size: 281.68515pt x 181.54623pt.
  [30 <./images/wireframe_profile.jpg> <./images/wireframe_members_management.jp
 g>]
-<images/wireframe_transactions.jpg, id=294, 963.6pt x 619.56468pt>
+<images/wireframe_transactions.jpg, id=295, 963.6pt x 619.56468pt>
 File: images/wireframe_transactions.jpg Graphic file (type jpg)
 <use images/wireframe_transactions.jpg>
 Package pdftex.def Info: images/wireframe_transactions.jpg  used on input line 
-569.
+511.
 (pdftex.def)             Requested size: 281.68515pt x 181.10612pt.
-<images/wireframe_categories.jpg, id=295, 963.6pt x 619.56468pt>
+<images/wireframe_categories.jpg, id=296, 963.6pt x 619.56468pt>
 File: images/wireframe_categories.jpg Graphic file (type jpg)
 <use images/wireframe_categories.jpg>
-Package pdftex.def Info: images/wireframe_categories.jpg  used on input line 58
-0.
+Package pdftex.def Info: images/wireframe_categories.jpg  used on input line 52
+2.
 (pdftex.def)             Requested size: 281.68515pt x 181.10612pt.
 ) [31 <./images/wireframe_transactions.jpg> <./images/wireframe_categories.jpg>
 ]
 \openout2 = `chapter3.aux'.
 
  (./chapter3.tex
-Overfull \hbox (19.92741pt too wide) in paragraph at lines 7--8
-[]\T2A/Tempora-TLF/m/n/14.4 (-20) Ссылка на про-ект на GitHub: []$https : / / g
-ithub . com / userownmaa / web _ coursework _
+Overfull \hbox (7.22716pt too wide) in paragraph at lines 27--28
+[]\T2A/cmtt/m/n/14.4 dashboard/member_stats.html \T2A/Tempora-TLF/m/n/14.4 (-20
+) --- стра-ни-ца про-смот-ра ста-ти-сти-ки участ-
  []
 
 [32
@@ -2247,56 +2247,129 @@ Overfull \hbox (16.17351pt too wide) in paragraph at lines 44--45
  []
 
 
-Overfull \hbox (16.17351pt too wide) in paragraph at lines 50--51
-[]\T2A/Tempora-TLF/m/n/14.4 (-20) При вы-бо-ре ро-ли \T2A/Tempora-TLF/b/n/14.4 
-(-20) ѕУчаст-никї \T2A/Tempora-TLF/m/n/14.4 (-20) поль-зо-ва-тель дол-жен вве-с
-ти код-приглашение
+Overfull \hbox (2.38943pt too wide) in paragraph at lines 47--48
+[]\T2A/Tempora-TLF/m/n/14.4 (-20) Аутентификация вы-пол-ня-ет-ся че-рез марш-ру
+т \T2A/cmtt/m/n/14.4 /auth/login\T2A/Tempora-TLF/m/n/14.4 (-20) . По-сле успеш-
+
  []
 
 [33]
-Overfull \hbox (1.42723pt too wide) in paragraph at lines 79--80
+Overfull \hbox (1.42723pt too wide) in paragraph at lines 69--70
 []\T2A/Tempora-TLF/m/n/14.4 (-20) Для ре-а-ли-за-ции CRUD-функционала ка-те-го-
 рий со-зда-на мо-дель \T2A/cmtt/m/n/14.4 Category\T2A/Tempora-TLF/m/n/14.4 (-20
 ) .
  []
 
-[34]
-Overfull \hbox (6.20044pt too wide) in paragraph at lines 81--82
+
+Overfull \hbox (6.20044pt too wide) in paragraph at lines 71--72
 []\T2A/Tempora-TLF/m/n/14.4 (-20) Для уста-нов-ки ли-ми-тов на ка-те-го-рии ис-
 поль-зу-ет-ся мо-дель \T2A/cmtt/m/n/14.4 CategoryLimit\T2A/Tempora-TLF/m/n/14.4
  (-20) .
  []
 
-
-Overfull \hbox (36.1212pt too wide) in paragraph at lines 100--101
-[]\T2A/Tempora-TLF/m/n/14.4 (-20) В мо-де-ли \T2A/cmtt/m/n/14.4 User \T2A/Tempo
-ra-TLF/m/n/14.4 (-20) до-бав-ле-ны ме-то-ды \T2A/cmtt/m/n/14.4 get_transactions
-()\T2A/Tempora-TLF/m/n/14.4 (-20) , \T2A/cmtt/m/n/14.4 get_total_income()\T2A/T
-empora-TLF/m/n/14.4 (-20) ,
+[34]
+Overfull \hbox (13.91808pt too wide) in paragraph at lines 78--79
+\T2A/Tempora-TLF/m/n/14.4 (-20) жет для участ-ни-ка че-рез марш-рут \T2A/cmtt/m
+/n/14.4 /set_user_budget \T2A/Tempora-TLF/m/n/14.4 (-20) (мо-дель \T2A/cmtt/m/n
+/14.4 UserBudget\T2A/Tempora-TLF/m/n/14.4 (-20) ); 
  []
 
 
-Overfull \hbox (2.72374pt too wide) in paragraph at lines 100--101
-\T2A/cmtt/m/n/14.4 get_total_expense()\T2A/Tempora-TLF/m/n/14.4 (-20) , \T2A/cm
-tt/m/n/14.4 get_balance(period) \T2A/Tempora-TLF/m/n/14.4 (-20) и \T2A/cmtt/m/n
-/14.4 get_category_breakdown()\T2A/Tempora-TLF/m/n/14.4 (-20) ,
+Overfull \hbox (27.89352pt too wide) in paragraph at lines 79--80
+[]\T2A/Tempora-TLF/b/n/14.4 (-20) Удаление участ-ни-ка \T2A/Tempora-TLF/m/n/14.
+4 (-20) --- че-рез API-эндпоинт \T2A/cmtt/m/n/14.4 /api/delete_member/<int:id>
  []
 
-[35] [36]
-Overfull \hbox (22.08762pt too wide) in paragraph at lines 161--162
-\T2A/Tempora-TLF/m/n/14.4 (-20) пе-ри-о-да. Дан-ные пе-ре-да-ют-ся че-рез пе-ре
--мен-ные \T2A/cmtt/m/n/14.4 budget_labels \T2A/Tempora-TLF/m/n/14.4 (-20) и \T2
-A/cmtt/m/n/14.4 budget_balance\T2A/Tempora-TLF/m/n/14.4 (-20) .
+
+Overfull \hbox (12.93437pt too wide) in paragraph at lines 80--81
+[]\T2A/Tempora-TLF/b/n/14.4 (-20) Генерация ко-да при-гла-ше-ния \T2A/Tempora-T
+LF/m/n/14.4 (-20) --- че-рез марш-рут \T2A/cmtt/m/n/14.4 /generate_invite_code\
+T2A/Tempora-TLF/m/n/14.4 (-20) . 
  []
 
-[37]) [38]
+
+Overfull \hbox (0.55527pt too wide) in paragraph at lines 88--89
+\T2A/Tempora-TLF/m/n/14.4 (-20) В мо-де-ли \T2A/cmtt/m/n/14.4 User \T2A/Tempora
+-TLF/m/n/14.4 (-20) до-бав-ле-ны ме-то-ды \T2A/cmtt/m/n/14.4 get_transactions()
+\T2A/Tempora-TLF/m/n/14.4 (-20) , \T2A/cmtt/m/n/14.4 get_total_income()\T2A/Tem
+pora-TLF/m/n/14.4 (-20) ,
+ []
+
+
+Overfull \hbox (75.9996pt too wide) in paragraph at lines 88--89
+\T2A/Tempora-TLF/m/n/14.4 (-20) лан-сы поль-зо-ва-те-лей в по-ле \T2A/cmtt/m/n/
+14.4 daily_balance\T2A/Tempora-TLF/m/n/14.4 (-20) . Функ-ция \T2A/cmtt/m/n/14.4
+ update_dashboard_stats(user_id)
+ []
+
+
+Overfull \hbox (37.13676pt too wide) in paragraph at lines 101--102
+\T2A/Tempora-TLF/m/n/14.4 (-20) ри-вать даш-борд лю-бо-го участ-ни-ка че-рез ма
+рш-рут \T2A/cmtt/m/n/14.4 /member_stats/<int:member_id>\T2A/Tempora-TLF/m/n/14.
+4 (-20) . 
+ []
+
+[35]
+Overfull \hbox (20.50839pt too wide) in paragraph at lines 105--106
+[]\T2A/Tempora-TLF/m/n/14.4 (-20) Экспорт от-чј-тов ре-а-ли-зо-ван в фор-ма-те 
+CSV че-рез марш-рут \T2A/cmtt/m/n/14.4 /export_report\T2A/Tempora-TLF/m/n/14.4 
+(-20) .
+ []
+
+
+Overfull \hbox (30.8433pt too wide) in paragraph at lines 123--124
+[]\T2A/Tempora-TLF/m/n/14.4 (-20) Просмотр че-ка ре-а-ли-зо-ван че-рез API-эндп
+оинт \T2A/cmtt/m/n/14.4 /api/get_receipt/<int:id>\T2A/Tempora-TLF/m/n/14.4 (-20
+) ,
+ []
+
+
+Overfull \hbox (55.08398pt too wide) in paragraph at lines 123--124
+\T2A/Tempora-TLF/m/n/14.4 (-20) стра-тор име-ет до-ступ к про-смот-ру всех фай-
+лов че-рез стра-ни-цу \T2A/cmtt/m/n/14.4 /admin/view_all_files\T2A/Tempora-TLF/
+m/n/14.4 (-20) . 
+ []
+
+[36]
+<images/pie_chart.png, id=324, 780.9175pt x 831.105pt>
+File: images/pie_chart.png Graphic file (type png)
+<use images/pie_chart.png>
+Package pdftex.def Info: images/pie_chart.png  used on input line 136.
+(pdftex.def)             Requested size: 328.6279pt x 349.74652pt.
+<images/bar_chart.png, id=326, 780.9175pt x 831.105pt>
+File: images/bar_chart.png Graphic file (type png)
+<use images/bar_chart.png>
+Package pdftex.def Info: images/bar_chart.png  used on input line 147.
+(pdftex.def)             Requested size: 328.6279pt x 349.74652pt.
+ [37 <./images/pie_chart.png>]
+<images/members_table.png, id=334, 1579.9025pt x 417.56pt>
+File: images/members_table.png Graphic file (type png)
+<use images/members_table.png>
+Package pdftex.def Info: images/members_table.png  used on input line 158.
+(pdftex.def)             Requested size: 422.52057pt x 111.66592pt.
+) [38 <./images/bar_chart.png> <./images/members_table.png>]
 \openout2 = `conclusion.aux'.
 
- (./conclusion.tex) [39
+ (./conclusion.tex
+Overfull \hbox (61.08047pt too wide) in paragraph at lines 13--14
+\T2A/cmtt/m/n/14.4 Category\T2A/Tempora-TLF/m/n/14.4 (-20) , \T2A/cmtt/m/n/14.4
+ Transaction\T2A/Tempora-TLF/m/n/14.4 (-20) , \T2A/cmtt/m/n/14.4 Receipt\T2A/Te
+mpora-TLF/m/n/14.4 (-20) , \T2A/cmtt/m/n/14.4 CategoryLimit\T2A/Tempora-TLF/m/n
+/14.4 (-20) , \T2A/cmtt/m/n/14.4 UserBudget\T2A/Tempora-TLF/m/n/14.4 (-20) , \T
+2A/cmtt/m/n/14.4 DashboardStats\T2A/Tempora-TLF/m/n/14.4 (-20) ),
+ []
+
+[39
 
 
 
-] (./paper.bbl
+]
+Overfull \hbox (2.05066pt too wide) in paragraph at lines 25--26
+\T2A/Tempora-TLF/m/n/14.4 (-20) GitHub: []$https : / / github . com / userownma
+a / web _ coursework _ Momina _ 241-[]327$[].
+ []
+
+) [40] (./paper.bbl
 Underfull \hbox (badness 3240) in paragraph at lines 13--21
 []\T2A/Tempora-TLF/m/n/14.4 (+20) Индекс фи-нан-со-вой гра-мот-но-сти ^^V 2025:
  рос-си-яне ста-ли ху-
@@ -2323,19 +2396,19 @@ See the caption package documentation for explanation.
 Package caption Warning: Unused \captionsetup[lstlisting] on input line 248.
 See the caption package documentation for explanation.
 
-[40
+[41
 
 
 ] (./paper.aux (./title.aux) (./intro.aux) (./chapter1.aux) (./chapter2.aux) (.
 /chapter3.aux) (./conclusion.aux))
 Package rerunfilecheck Info: File `paper.out' has not changed.
-(rerunfilecheck)             Checksum: 19CDF611AE9F91E406EB88182C16C418;5141.
+(rerunfilecheck)             Checksum: 13C6EE0BC1DE2BDBD025CDB6935FBFC3;5139.
  ) 
 Here is how much of TeX's memory you used:
- 23726 strings out of 479648
- 382953 string characters out of 5886116
- 693924 words of memory out of 5000000
- 40964 multiletter control sequences out of 15000+600000
+ 23754 strings out of 479648
+ 383458 string characters out of 5886116
+ 694243 words of memory out of 5000000
+ 40984 multiletter control sequences out of 15000+600000
  519667 words of font info for 157 fonts, out of 8000000 for 9000
  475 hyphenation exceptions out of 8191
  85i,17n,131p,1302b,2136s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -2344,10 +2417,10 @@ Here is how much of TeX's memory you used:
 are/texlive/texmf-dist/fonts/enc/dvips/tempora/t2a-tempora.enc}</usr/share/texl
 ive/texmf-dist/fonts/type1/public/tempora/Tempora-Bold.pfb></usr/share/texlive/
 texmf-dist/fonts/type1/public/tempora/Tempora-Regular.pfb>
-Output written on paper.pdf (40 pages, 2009580 bytes).
+Output written on paper.pdf (41 pages, 2195524 bytes).
 PDF statistics:
- 449 PDF objects out of 1000 (max. 8388607)
- 323 compressed objects within 4 object streams
- 104 named destinations out of 1000 (max. 500000)
- 26362 words of extra memory for PDF output out of 29859 (max. 10000000)
+ 471 PDF objects out of 1000 (max. 8388607)
+ 329 compressed objects within 4 object streams
+ 108 named destinations out of 1000 (max. 500000)
+ 26377 words of extra memory for PDF output out of 29859 (max. 10000000)
 
