@@ -23,11 +23,15 @@
 \contentsline {section}{\MakeUppercase {Глава 3. Разработка веб-приложения}}{32}{figure.caption.25}%
 \contentsline {subsection}{\numberline {3.1}Вёрстка HTML страниц}{32}{subsection.3.1}%
 \contentsline {subsection}{\numberline {3.2}Реализация модуля авторизации}{33}{subsection.3.2}%
-\contentsline {subsection}{\numberline {3.3}Реализация CRUD-интерфейса}{34}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.3}Реализация CRUD-интерфейса}{33}{subsection.3.3}%
 \contentsline {subsection}{\numberline {3.4}Реализация обработки и анализа данных}{35}{subsection.3.4}%
-\contentsline {subsection}{\numberline {3.5}Реализация работы с файлами}{36}{subsection.3.5}%
-\contentsline {subsection}{\numberline {3.6}Реализация системы визуализации}{36}{subsection.3.6}%
-\contentsline {section}{\MakeUppercase {Заключение}}{39}{figure.caption.28}%
+\contentsline {subsection}{\numberline {3.5}Реализация работы с файлами}{38}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.6}Реализация системы визуализации}{39}{subsection.3.6}%
+\contentsline {section}{\MakeUppercase {Заключение}}{42}{figure.caption.28}%
+\babel@toc {russian}{}\relax 
+\babel@toc {russian}{}\relax 
+\babel@toc {russian}{}\relax 
+\babel@toc {russian}{}\relax 
 \babel@toc {russian}{}\relax 
 \babel@toc {russian}{}\relax 
 \babel@toc {russian}{}\relax 

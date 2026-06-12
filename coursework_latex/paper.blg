@@ -10,44 +10,44 @@ A level-1 auxiliary file: conclusion.aux
 The style file: ugost2003.bst
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Database file #1: refs.bib
-You've used 2 entries,
+You've used 11 entries,
             3895 wiz_defined-function locations,
-            1108 strings with 9196 characters,
-and the built_in function-call counts, 511 in all, are:
-= -- 56
-> -- 2
+            1144 strings with 10086 characters,
+and the built_in function-call counts, 2525 in all, are:
+= -- 270
+> -- 11
 < -- 0
-+ -- 2
++ -- 11
 - -- 0
-* -- 58
-:= -- 39
-add.period$ -- 6
-call.type$ -- 2
+* -- 290
+:= -- 157
+add.period$ -- 33
+call.type$ -- 11
 change.case$ -- 0
 chr.to.int$ -- 0
-cite$ -- 2
-duplicate$ -- 32
-empty$ -- 71
+cite$ -- 11
+duplicate$ -- 175
+empty$ -- 385
 format.name$ -- 0
-if$ -- 129
+if$ -- 666
 int.to.chr$ -- 0
-int.to.str$ -- 2
+int.to.str$ -- 11
 missing$ -- 0
-newline$ -- 23
+newline$ -- 77
 num.names$ -- 0
-pop$ -- 12
+pop$ -- 67
 preamble$ -- 1
 purify$ -- 0
-quote$ -- 5
-skip$ -- 8
+quote$ -- 23
+skip$ -- 43
 stack$ -- 0
 substring$ -- 0
-swap$ -- 20
+swap$ -- 108
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 2
+type$ -- 11
 warning$ -- 0
 while$ -- 0
-width$ -- 3
-write$ -- 36
+width$ -- 13
+write$ -- 151

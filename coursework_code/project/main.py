@@ -13,7 +13,6 @@ from datetime import datetime, date, timedelta
 main_bp = Blueprint('main', __name__)
 
 def generate_invite_code():
-    """Генерация уникального кода приглашения"""
     alphabet = string.ascii_uppercase + string.digits
     while True:
         code = 'FAM-' + ''.join(secrets.choice(alphabet) for _ in range(6))
@@ -23,7 +22,6 @@ def generate_invite_code():
 @main_bp.route('/generate_invite_code', methods=['POST'])
 @login_required
 def generate_invite_code_route():
-    """Генерация нового кода приглашения"""
     if current_user.role != 'owner':
         flash('Доступ запрещен', 'danger')
         return redirect(url_for('main.index'))
@@ -38,7 +36,6 @@ def generate_invite_code_route():
 
 
 def update_dashboard_stats(user_id):
-    """Обновление статистики для дашборда пользователя"""
     from project.models import DashboardStats
     
     # Получаем пользователя

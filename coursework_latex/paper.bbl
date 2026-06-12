@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 \def\selectlanguageifdefined#1{
 \expandafter\ifx\csname date#1\endcsname\relax
 \else\selectlanguage{#1}\fi}
@@ -28,5 +28,74 @@
 \newblock URL:
   \BibUrl{https://www.cbr.ru/press/pr/?file=20032026_133000key.htm} ({дата
   обращения}: 01.04.2026).
+
+\bibitem{zenmoney}
+\selectlanguageifdefined{russian}
+Дзен-мани: Официальный сайт приложения для
+  учёта личных финансов [{Электронный
+  ресурс}], Дзен-мани. "---
+\newblock [{Б.\ м.}~: {б.\ и.}], 2026. "---
+\newblock URL: \BibUrl{https://zenmoney.ru/} ({дата обращения}:
+  01.04.2026).
+
+\bibitem{monefy}
+\selectlanguageifdefined{english}
+Monefy — Budget Tracker App [Electronic resource], Reflective Technologies
+  ApS. "---
+\newblock [S.\ l.~: s.\ n.], 2026. "---
+\newblock URL: \BibUrl{https://monefy.com/} (online; accessed: 01.04.2026).
+
+\bibitem{moneylover}
+\selectlanguageifdefined{english}
+Money Lover – Spending Manager [Electronic resource], Google Play. "---
+\newblock [S.\ l.~: s.\ n.], 2026. "---
+\newblock URL:
+  \BibUrl{https://play.google.com/store/apps/details?id=com.bookmark.money}
+  (online; accessed: 01.04.2026).
+
+\bibitem{django}
+\selectlanguageifdefined{english}
+Django Documentation [Electronic resource], Django Software Foundation. "---
+\newblock [S.\ l.~: s.\ n.], 2026. "---
+\newblock URL: \BibUrl{https://docs.djangoproject.com/} (online; accessed:
+  01.04.2026).
+
+\bibitem{flask}
+\selectlanguageifdefined{english}
+Welcome to Flask — Flask Documentation (3.1.x) [Electronic resource], Flask.
+  "---
+\newblock [S.\ l.~: s.\ n.], 2026. "---
+\newblock URL: \BibUrl{https://flask.palletsprojects.com/} (online; accessed:
+  01.04.2026).
+
+\bibitem{fastapi}
+\selectlanguageifdefined{english}
+FastAPI Framework Official Documentation [Electronic resource], FastAPI. "---
+\newblock [S.\ l.~: s.\ n.], 2026. "---
+\newblock URL: \BibUrl{https://fastapi.tiangolo.com/} (online; accessed:
+  01.04.2026).
+
+\bibitem{bootstrap}
+\selectlanguageifdefined{english}
+Bootstrap 5 JavaScript Documentation [Electronic resource], Bootstrap. "---
+\newblock [S.\ l.~: s.\ n.], 2026. "---
+\newblock URL:
+  \BibUrl{https://getbootstrap.com/docs/5.3/getting-started/javascript/}
+  (online; accessed: 01.04.2026).
+
+\bibitem{react}
+\selectlanguageifdefined{russian}
+React Documentation: Quick Start [{Электронный ресурс}]. "---
+\newblock [{Б.\ м.}~: {б.\ и.}]. "---
+\newblock URL: \BibUrl{https://react.dev} ({дата обращения}:
+  27.03.2026).
+
+\bibitem{chartjs}
+\selectlanguageifdefined{english}
+Chart.js | Open source HTML5 Charts for your website [Electronic resource],
+  Chart.js. "---
+\newblock [S.\ l.~: s.\ n.], 2026. "---
+\newblock URL: \BibUrl{https://www.chartjs.org/} (online; accessed:
+  01.04.2026).
 
 \end{thebibliography}
